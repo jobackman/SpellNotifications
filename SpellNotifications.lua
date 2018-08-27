@@ -32,14 +32,14 @@ local warnOP
 local warnCS
 
 function SpellNotifications_OnLoad(self)
-local _,class = UnitClass("player")
-self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
-self:RegisterEvent("UNIT_HEALTH");
-self:RegisterEvent("PLAYER_TARGET_CHANGED");
-self:RegisterEvent("PLAYER_REGEN_DISABLED"); -- enter combat
-self:RegisterEvent("PLAYER_REGEN_ENABLED"); -- leave combat
-self:RegisterEvent("PLAYER_ENTERING_WORLD");
-self:RegisterEvent("ACTIONBAR_UPDATE_STATE");
+	local _,class = UnitClass("player")
+	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
+	self:RegisterEvent("UNIT_HEALTH");
+	self:RegisterEvent("PLAYER_TARGET_CHANGED");
+	self:RegisterEvent("PLAYER_REGEN_DISABLED"); -- enter combat
+	self:RegisterEvent("PLAYER_REGEN_ENABLED"); -- leave combat
+	self:RegisterEvent("PLAYER_ENTERING_WORLD");
+	self:RegisterEvent("ACTIONBAR_UPDATE_STATE");
 end
 
 function SpellNotifications_OnEvent(event,...)
@@ -253,11 +253,6 @@ function SpellNotifications_OnEvent(event,...)
 					ResistMethod = "missed"
 				end
 
-				if (ResistMethod=="immune") and (spellName=="Shattering Throw") then
-					SpellNotifications_Print("Shattered!","green","small")
-					return;
-				end
-
 				if (ResistMethod=="immune") or (ResistMethod=="evaded") then
 					SpellNotifications_Print(""..spellName.." "..ResistMethod..".","red","large")
 				else
@@ -294,7 +289,7 @@ function SpellNotifications_Print(text,color,size)
 	local size = string.lower(size)
 
 
-if color == "blue" then
+	if color == "blue" then
 		R = 0; G = .75; B = 1
 	elseif color == "green" then
 		R = .5; G = 1; B = 0
