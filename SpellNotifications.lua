@@ -42,387 +42,246 @@ end
 
 function SpellNotifications_OnEvent(event,...)
 
-local currentSpec = GetSpecialization()
-local currentSpecName = currentSpec and select(2, GetSpecializationInfo(currentSpec)) or "None"
+	local currentSpec = GetSpecialization()
+	local currentSpecName = currentSpec and select(2, GetSpecializationInfo(currentSpec)) or "None"
 
-local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = CombatLogGetCurrentEventInfo() -- select(1,...)
---        1        2       3           4            5           6              7              8        9          10          11
-
-print(event);
--- Category: General
-
--- if (event=="SPELL_CAST_SUCCESS") then
--- 	if bit.band(sourceFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) <= 0 then
--- 		local spellName = select(13,...)
--- 		if destName ~= nil then
--- 			if (spellName == "Scatter Shot" or spellName == "Intimidation" or spellName == "Lullaby" or spellName == "Bad Manner" or spellName == "Web Wrap") and (destName == "Zileazx" or destName == "Zilea" or destName == "Thingtworyan" or destName == "Mydadsbutt" or destName == "Sodahz" or destName == "Thingtwotwo" or (string.find(destName,"Grave")) or (string.find(destName,"Vile")) or destName == "Bwinthehouse" or destName == "Coreygunz" or destName == "Veller") then
--- 				SpellNotifications_Print(string.upper(spellName).."!","purple","large")
--- 				SpellNotifications_PlaySound("train")
--- 			end
--- 		end
--- 	end
--- end
-
--- if (event=="SPELL_AURA_APPLIED") then
--- 	if bit.band(sourceFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) <= 0 then
--- 		local spellName = select(13,...)
--- 		if destName ~= nil then
--- 			if spellName == "Bad Manner" and (destName == "Starshipx" or destName == "Zilea" or destName == "Taylorswift" or destName == "Mydadsbutt" or destName == "Sodahz" or destName == "Kollektiv" or (string.find(destName,"Grave")) or (string.find(destName,"Vile")) or destName == "Bwinthehouse" or destName == "Coreygunz" or destName == "Veller") then
--- 				SpellNotifications_Print(string.upper(spellName).."!","purple","large")
--- 				SpellNotifications_PlaySound("train")
--- 			end
--- 		end
--- 	end
--- end
-
--- if (event=="SPELL_AURA_APPLIED") then
--- 	if bit.band(sourceFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) <= 0 then
--- 		local spellName = select(13,...)
--- 		if destName ~= nil then
--- 			if spellName == "Predatory Swiftness" then
--- 				--SpellNotifications_Print(string.upper(spellName).."!","orange","large")
--- 				--SpellNotifications_PlaySound("train")
--- 			end
--- 		end
--- 	end
--- end
+	local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = CombatLogGetCurrentEventInfo()
+	--        1        2       3           4            5           6              7              8        9          10          11
 
 
-if (event=="SPELL_DISPEL") then
-	if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-		local spellName = select(16,...)
-		if bit.band(destFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) > 0 then
-			SpellNotifications_Print("Dispelled "..spellName..".","white","small") -- friendly target
-		else
-			SpellNotifications_Print("Dispelled "..spellName..".","yellow","small") -- enemy target
-		end
-	end
-end
-
-if (event=="SPELL_STOLEN") then
-	if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-		debug(...)
-		local spellName = select(16,...)
-		SpellNotifications_Print("Stole "..spellName..".","yellow","small") -- enemy target
-	end
-end
-
-
-
-
-
---cleanupmarker
-
-
-
-
-
-
--- if (event=="SPELL_AURA_APPLIED") or (event=="SPELL_AURA_APPLIED_DOSE") or (event=="SPELL_EXTRA_ATTACKS") then
--- 	if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
--- 		local spellId,spellName = select(12,...)
--- 		if (event=="SPELL_AURA_APPLIED_DOSE") then
--- 			amount = select(14,...)
--- 		end
-
--- 	end
--- end
-
-
---12/26 19:53:55.151  UNIT_DIED,0x0000000000000000,nil,0x80000000,0xF140A698C50150C4,"Czaafum",0x11111
-if (event=="UNIT_DIED") then
-	if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-		if bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PET) > 0 then
-			SpellNotifications_Print("Pet dead.","red","large")
-	end
-end
-end
-
-
-
-
-if (event=="SPELL_INTERRUPT") then
-	if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-		local extraSchool = select(17,...)
-
-		print(extraSchool)
-		if extraSchool==1 then
-			SpellSchool="Physical"
-		elseif extraSchool==2 then
-			SpellSchool="Holy"
-		elseif extraSchool==4 then
-			SpellSchool="Fire"
-		elseif extraSchool==8 then
-			SpellSchool="Nature"
-		elseif extraSchool==16 then
-			SpellSchool="Frost"
-		elseif extraSchool==32 then
-			SpellSchool="Shadow"
-		elseif extraSchool==64 then
-			SpellSchool="Arcane"
-		elseif extraSchool==3 then
-			SpellSchool="Holystrike"
-		elseif extraSchool==5 then
-			SpellSchool="Flamestrike"
-		elseif extraSchool==6 then
-			SpellSchool="Holyfire"
-		elseif extraSchool==9 then
-			SpellSchool="Stormstrike"
-		elseif extraSchool==10 then
-			SpellSchool="Holystorm"
-		elseif extraSchool==12 then
-			SpellSchool="Firestorm"
-		elseif extraSchool==17 then
-			SpellSchool="Froststrike"
-		elseif extraSchool==18 then
-			SpellSchool="Holyfrost"
-		elseif extraSchool==20 then
-			SpellSchool="Frostfire"
-		elseif extraSchool==24 then
-			SpellSchool="Froststorm"
-		elseif extraSchool==33 then
-			SpellSchool="Shadowstrike"
-		elseif extraSchool==34 then
-			SpellSchool="Twilight"
-		elseif extraSchool==36 then
-			SpellSchool="Shadowflame"
-		elseif extraSchool==40 then
-			SpellSchool="Plague"
-		elseif extraSchool==48 then
-			SpellSchool="Shadowfrost"
-		elseif extraSchool==65 then
-			SpellSchool="Spellstrike"
-		elseif extraSchool==66 then
-			SpellSchool="Divine"
-		elseif extraSchool==68 then
-			SpellSchool="Spellfire"
-		elseif extraSchool==72 then
-			SpellSchool="Spellstorm"
-		elseif extraSchool==80 then
-			SpellSchool="Spellfrost"
-		elseif extraSchool==96 then
-			SpellSchool="Spellshadow"
-		elseif extraSchool==28 then
-			SpellSchool="Elemental"
-		elseif extraSchool==124 then
-			SpellSchool="Chromatic"
-		elseif extraSchool==126 then
-			SpellSchool="Magic"
-		elseif extraSchool==127 then
-			SpellSchool="Chaos"
-		else
-			SpellSchool = "unknown spell school"
-		end
-		if SpellSchool==nil then
-			SpellSchool = "unknown spell school"
-		end
-		SpellNotifications_Print("Interrupted "..string.lower(SpellSchool)..".","green","small")
-	end
-end
-
-
-
-
-
---9/28 20:58:34.485  SPELL_AURA_APPLIED,0x0400000005D8000F,"Veev",0x511,0x0,0x0400000005D8A13D,"Valrathz",0x512,0x0,114028,"Mass Spell Reflection",0x1,BUFF
-if event=="SPELL_AURA_APPLIED" or event=="SPELL_AURA_REMOVED" then
-	if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-		local spellName = select(13,...)
-		if spellName=="Mass Spell Reflection" then
-			if event=="SPELL_AURA_APPLIED" then
-				reflected[destGUID] = true
+	if (event=="SPELL_DISPEL") then
+		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
+			local spellName = select(16, CombatLogGetCurrentEventInfo());
+			if bit.band(destFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) > 0 then
+				SpellNotifications_Print("Dispelled "..spellName..".","white","small") -- friendly target
 			else
-				reflected[destGUID] = false
+				SpellNotifications_Print("Dispelled "..spellName..".","yellow","small") -- enemy target
 			end
 		end
 	end
-end
-if (event=="SPELL_MISSED") then
-	if (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) <= 0) then
-		local spellName,_,missType = select(13,...)
-		if (missType=="REFLECT") then
-			if reflected[destGUID] ~= nil then
-				if reflected[destGUID] then
-					SpellNotifications_Print("Reflected "..spellName..".","blue","small")
-					--SendChatMessage("Reflected "..spellName..".", "WHISPER", nil, destName);
+
+	if (event=="SPELL_STOLEN") then
+		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
+			local spellName = select(16, CombatLogGetCurrentEventInfo());
+			SpellNotifications_Print("Stole "..spellName..".","yellow","small") -- enemy target
+		end
+	end
+
+
+	if (event=="UNIT_DIED") then
+		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
+			if bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PET) > 0 then
+				SpellNotifications_Print("Pet dead.","red","large")
+		end
+	end
+	end
+
+
+
+
+	if (event=="SPELL_INTERRUPT") then
+		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
+			local extraSchool = select(17, CombatLogGetCurrentEventInfo())
+
+			if extraSchool==1 then
+				SpellSchool="Physical"
+			elseif extraSchool==2 then
+				SpellSchool="Holy"
+			elseif extraSchool==4 then
+				SpellSchool="Fire"
+			elseif extraSchool==8 then
+				SpellSchool="Nature"
+			elseif extraSchool==16 then
+				SpellSchool="Frost"
+			elseif extraSchool==32 then
+				SpellSchool="Shadow"
+			elseif extraSchool==64 then
+				SpellSchool="Arcane"
+			elseif extraSchool==3 then
+				SpellSchool="Holystrike"
+			elseif extraSchool==5 then
+				SpellSchool="Flamestrike"
+			elseif extraSchool==6 then
+				SpellSchool="Holyfire"
+			elseif extraSchool==9 then
+				SpellSchool="Stormstrike"
+			elseif extraSchool==10 then
+				SpellSchool="Holystorm"
+			elseif extraSchool==12 then
+				SpellSchool="Firestorm"
+			elseif extraSchool==17 then
+				SpellSchool="Froststrike"
+			elseif extraSchool==18 then
+				SpellSchool="Holyfrost"
+			elseif extraSchool==20 then
+				SpellSchool="Frostfire"
+			elseif extraSchool==24 then
+				SpellSchool="Froststorm"
+			elseif extraSchool==33 then
+				SpellSchool="Shadowstrike"
+			elseif extraSchool==34 then
+				SpellSchool="Twilight"
+			elseif extraSchool==36 then
+				SpellSchool="Shadowflame"
+			elseif extraSchool==40 then
+				SpellSchool="Plague"
+			elseif extraSchool==48 then
+				SpellSchool="Shadowfrost"
+			elseif extraSchool==65 then
+				SpellSchool="Spellstrike"
+			elseif extraSchool==66 then
+				SpellSchool="Divine"
+			elseif extraSchool==68 then
+				SpellSchool="Spellfire"
+			elseif extraSchool==72 then
+				SpellSchool="Spellstorm"
+			elseif extraSchool==80 then
+				SpellSchool="Spellfrost"
+			elseif extraSchool==96 then
+				SpellSchool="Spellshadow"
+			elseif extraSchool==28 then
+				SpellSchool="Elemental"
+			elseif extraSchool==124 then
+				SpellSchool="Chromatic"
+			elseif extraSchool==126 then
+				SpellSchool="Magic"
+			elseif extraSchool==127 then
+				SpellSchool="Chaos"
+			else
+				SpellSchool = "unknown spell school"
+			end
+			if SpellSchool==nil then
+				SpellSchool = "unknown spell school"
+			end
+			SpellNotifications_Print("Interrupted "..string.lower(SpellSchool)..".","green","small")
+		end
+	end
+
+
+
+
+
+	--9/28 20:58:34.485  SPELL_AURA_APPLIED,0x0400000005D8000F,"Veev",0x511,0x0,0x0400000005D8A13D,"Valrathz",0x512,0x0,114028,"Mass Spell Reflection",0x1,BUFF
+	if event=="SPELL_AURA_APPLIED" or event=="SPELL_AURA_REMOVED" then
+		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
+			local spellName = select(13, CombatLogGetCurrentEventInfo())
+			if spellName=="Mass Spell Reflection" then
+				if event=="SPELL_AURA_APPLIED" then
+					reflected[destGUID] = true
+				else
+					reflected[destGUID] = false
 				end
 			end
 		end
 	end
-end
-
-
-
-
-
-if (event=="SPELL_MISSED") then
-	if (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0) then
-		local spellName,_,missType = select(13,...)
-		if (missType=="REFLECT") then
-			SpellNotifications_Print("Reflected "..spellName..".","white","small")
-			--SendChatMessage("Reflected "..spellName..".", "PARTY");
-		elseif (destName=="Grounding Totem") and (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0) then
-			SpellNotifications_Print("Grounded "..spellName..".","white","small")
-			--SendChatMessage("Grounded "..spellName..".", "PARTY");
+	if (event=="SPELL_MISSED") then
+		if (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) <= 0) then
+			local spellName,_,missType = select(13, CombatLogGetCurrentEventInfo())
+			if (missType=="REFLECT") then
+				if reflected[destGUID] ~= nil then
+					if reflected[destGUID] then
+						SpellNotifications_Print("Reflected "..spellName..".","blue","small")
+					end
+				end
+			end
 		end
 	end
-end
-if (event=="SPELL_DAMAGE") then
-	if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-		local spellName = select(13,...)
-		if (destName=="Grounding Totem") then
-			SpellNotifications_Print("Grounded "..spellName..".","white","small")
-			--SendChatMessage("Grounded "..spellName..".", "PARTY");
+
+
+
+
+
+	if (event=="SPELL_MISSED") then
+		if (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0) then
+			local spellName,_,missType = select(13, CombatLogGetCurrentEventInfo())
+			if (missType=="REFLECT") then
+				SpellNotifications_Print("Reflected "..spellName..".","white","small")
+			elseif (destName=="Grounding Totem") and (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0) then
+				SpellNotifications_Print("Grounded "..spellName..".","white","small")
+			end
 		end
 	end
-end
-
-
-
-if (event=="SPELL_MISSED") then
-	if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-		if (destGUID==UnitGUID("target")) or (destGUID==UnitGUID("targettarget")) or (destGUID==UnitGUID("focus")) or (destGUID==UnitGUID("player")) or (destGUID==UnitGUID("pet")) or (destGUID==UnitGUID("pettarget")) or (destGUID==UnitGUID("mouseover")) or (destGUID==UnitGUID("mouseovertarget")) or (destGUID==UnitGUID("arena1")) or (destGUID==UnitGUID("arena2")) or (destGUID==UnitGUID("arena3")) or (destGUID==UnitGUID("arena4")) or (destGUID==UnitGUID("arena5")) or (destGUID==UnitGUID("party1")) or (destGUID==UnitGUID("party2")) or (destGUID==UnitGUID("party3")) or (destGUID==UnitGUID("party4")) or (destGUID==UnitGUID("party5")) then -- makes sure dest targ wasn't some random aoe
-			local spellName,_,missType = select(13,...)
-			local lowspell = string.lower(spellName)
-
-			if (string.find(lowspell,"pvp trinket")) or (string.find(lowspell,"every man for himself")) or (string.find(lowspell,"soul fragment")) or (string.find(lowspell,"chaos bane")) or (string.find(lowspell,"frostforged")) or (string.find(lowspell,"berserk")) or (string.find(lowspell,"hurricane")) or (string.find(lowspell,"power torrent")) or (string.find(lowspell,"elemental force")) or (string.find(lowspell,"lightning breath")) or (string.find(lowspell,"stormlash")) or (string.find(lowspell,"dancing steel")) or (string.find(lowspell,"lifebloom"))
-			--Death Knight
-
-			--Druid
-			or (string.find(lowspell,"fury swipes"))
-
-			--Hunter
-
-			--Mage
-			or (string.find(lowspell,"frostbite")) or ((string.find(lowspell,"deep freeze")) and missType=="IMMUNE") or (string.find(lowspell,"frost nova")) or (string.find(lowspell,"shattered barrier")) or (string.find(lowspell,"waterbolt")) or (string.find(lowspell,"chilled"))
-
-			--Paladin
-			or (string.find(lowspell,"seal of "))
-
-			--Priest
-
-			--Rogue
-			or (string.find(lowspell," poison"))
-
-			--Shaman
-			or (string.find(lowspell,"healing stream")) or (string.find(lowspell,"earth shield")) or (string.find(lowspell,"ancestral awakening"))
-
-			--Warlock
-			or (string.find(lowspell,"torment")) or (string.find(lowspell,"shadow bite")) or (string.find(lowspell,"jinx")) or (string.find(lowspell,"dark intent")) or (string.find(lowspell,"siphon life")) or (string.find(lowspell,"fel synergy")) or (string.find(lowspell,"eradication")) or (string.find(lowspell,"nightfall")) or (string.find(lowspell,"devour magic")) or (string.find(lowspell,"shadow embrace")) or (string.find(lowspell,"doom bolt")) or (string.find(lowspell,"everlasting affliction")) or (string.find(lowspell,"immolation")) or (string.find(lowspell,"shadowsnare")) or (string.find(lowspell,"shadow and flame")) or (string.find(lowspell,"improved shadow")) or (string.find(lowspell,"felstorm")) or (string.find(lowspell,"legion strike")) or (string.find(lowspell,"pursuit")) or (string.find(lowspell,"curse of gul'dan")) or (string.find(lowspell,"fel armor")) or (string.find(lowspell,"volcanic destruction")) or (string.find(lowspell,"shadow trance"))
-
-			--Warrior
-			or ((string.find(lowspell,"shockwave")) and missType=="IMMUNE") or (string.find(lowspell,"gag order")) or (string.find(lowspell,"heroic strike")) or (string.find(lowspell,"cleave")) or (string.find(lowspell,"deep wound")) or (string.find(lowspell,"enrage")) or (string.find(lowspell,"taste for blood")) or (string.find(lowspell,"strikes of opportunity")) or (string.find(lowspell,"opportunity strike")) or ((string.find(lowspell,"taunt")) and missType=="IMMUNE") or (string.find(lowspell,"safeguard")) or (string.find(lowspell,"mortal wounds")) or (string.find(lowspell,"physical vulnerability")) or (string.find(lowspell,"second wind"))
-
-			then
-				return;
+	if (event=="SPELL_DAMAGE") then
+		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
+			local spellName = select(13,...)
+			if (destName=="Grounding Totem") then
+				SpellNotifications_Print("Grounded "..spellName..".","white","small")
 			end
+		end
+	end
 
-			if (string.find(lowspell,"charge")) then
-				spellName = "Charge"
-			elseif (string.find(lowspell,"intercept")) then
-				spellName = "Intercept"
-			elseif (string.find(lowspell,"ravage")) then
-				spellName = "Ravage"
-			end
-			if (missType=="ABSORB") then
-				return;
-			elseif (destName=="Grounding Totem") then
-				ResistMethod = "grounded"
-				MySpellGrounded = true;
-			elseif (missType=="REFLECT") then
-				ResistMethod = "reflected"
-				MySpellReflected = true;
-			elseif (missType=="IMMUNE") then
-				ResistMethod = "immune"
-			elseif (missType=="EVADE") then
-				ResistMethod = "evaded"
-			elseif (missType=="PARRY") then
-				ResistMethod = "parried"
-			elseif (missType=="DODGE") then
-				ResistMethod = "dodged"
-			elseif (missType=="BLOCK") then
-				ResistMethod = "blocked"
-			elseif (missType=="DEFLECT") then
-				ResistMethod = "deflected"
-			elseif (missType=="RESIST") then
-				ResistMethod = "resisted"
-			else
-				ResistMethod = "missed"
-			end
 
-			if (ResistMethod=="immune") and (spellName=="Shattering Throw") then
-				SpellNotifications_Print("Shattered!","green","small")
-				return;
-			end
 
-			if (ResistMethod=="immune") or (ResistMethod=="evaded") then
-				SpellNotifications_Print(""..spellName.." "..ResistMethod..".","red","large")
-			else
-				SpellNotifications_Print(""..spellName.." "..ResistMethod..".","white","large")
-				SpellNotifications_PlaySound("thud")
-			end
-			if (ResistMethod ~= "immune") then
-				if (spellName=="Mocking Blow") or (spellName=="Challenging Shout") or (spellName=="Taunt") or (spellName=="Growl") or (spellName=="Challenging Roar") then
-					lowerspellName = string.lower(spellName)
-					if (class=="WARRIOR") or (class=="DRUID") or (class=="PALADIN") or (class=="DEATHKNIGHT") then
-						if (ResistMethod ~= "missed") then
-							SendChatMessage("My "..lowerspellName.." was "..ResistMethod..".");
-						else
-							SendChatMessage("My "..lowerspellName.." "..ResistMethod..".");
+	if (event=="SPELL_MISSED") then
+		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
+			if (destGUID==UnitGUID("target")) or (destGUID==UnitGUID("targettarget")) or (destGUID==UnitGUID("focus")) or (destGUID==UnitGUID("player")) or (destGUID==UnitGUID("pet")) or (destGUID==UnitGUID("pettarget")) or (destGUID==UnitGUID("mouseover")) or (destGUID==UnitGUID("mouseovertarget")) or (destGUID==UnitGUID("arena1")) or (destGUID==UnitGUID("arena2")) or (destGUID==UnitGUID("arena3")) or (destGUID==UnitGUID("arena4")) or (destGUID==UnitGUID("arena5")) or (destGUID==UnitGUID("party1")) or (destGUID==UnitGUID("party2")) or (destGUID==UnitGUID("party3")) or (destGUID==UnitGUID("party4")) or (destGUID==UnitGUID("party5")) then -- makes sure dest targ wasn't some random aoe
+				local spellName,_,missType = select(13, CombatLogGetCurrentEventInfo())
+				local lowspell = string.lower(spellName)
+
+				if (string.find(lowspell,"charge")) then
+					spellName = "Charge"
+				elseif (string.find(lowspell,"intercept")) then
+					spellName = "Intercept"
+				elseif (string.find(lowspell,"ravage")) then
+					spellName = "Ravage"
+				end
+				if (missType=="ABSORB") then
+					return;
+				elseif (destName=="Grounding Totem") then
+					ResistMethod = "grounded"
+					MySpellGrounded = true;
+				elseif (missType=="REFLECT") then
+					ResistMethod = "reflected"
+					MySpellReflected = true;
+				elseif (missType=="IMMUNE") then
+					ResistMethod = "immune"
+				elseif (missType=="EVADE") then
+					ResistMethod = "evaded"
+				elseif (missType=="PARRY") then
+					ResistMethod = "parried"
+				elseif (missType=="DODGE") then
+					ResistMethod = "dodged"
+				elseif (missType=="BLOCK") then
+					ResistMethod = "blocked"
+				elseif (missType=="DEFLECT") then
+					ResistMethod = "deflected"
+				elseif (missType=="RESIST") then
+					ResistMethod = "resisted"
+				else
+					ResistMethod = "missed"
+				end
+
+				if (ResistMethod=="immune") and (spellName=="Shattering Throw") then
+					SpellNotifications_Print("Shattered!","green","small")
+					return;
+				end
+
+				if (ResistMethod=="immune") or (ResistMethod=="evaded") then
+					SpellNotifications_Print(""..spellName.." "..ResistMethod..".","red","large")
+				else
+					SpellNotifications_Print(""..spellName.." "..ResistMethod..".","white","large")
+				end
+				if (ResistMethod ~= "immune") then
+					if (spellName=="Mocking Blow") or (spellName=="Challenging Shout") or (spellName=="Taunt") or (spellName=="Growl") or (spellName=="Challenging Roar") then
+						lowerspellName = string.lower(spellName)
+						if (class=="WARRIOR") or (class=="DRUID") or (class=="PALADIN") or (class=="DEATHKNIGHT") then
+							if (ResistMethod ~= "missed") then
+								SendChatMessage("My "..lowerspellName.." was "..ResistMethod..".");
+							else
+								SendChatMessage("My "..lowerspellName.." "..ResistMethod..".");
+							end
 						end
 					end
 				end
 			end
 		end
 	end
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 end
 
-
-
-
-
-
+-- end of SpellNotifications_OnEvent
 
 
 
