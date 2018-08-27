@@ -45,57 +45,48 @@ function SpellNotifications_OnEvent(event,...)
 local currentSpec = GetSpecialization()
 local currentSpecName = currentSpec and select(2, GetSpecializationInfo(currentSpec)) or "None"
 
-local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = select(1,...)
+local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = CombatLogGetCurrentEventInfo() -- select(1,...)
 --        1        2       3           4            5           6              7              8        9          10          11
 
+print(event);
 -- Category: General
 
-if (event=="SPELL_CAST_SUCCESS") then
-	if bit.band(sourceFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) <= 0 then
-		local spellName = select(13,...)
-		if destName ~= nil then
-			if (spellName == "Scatter Shot" or spellName == "Intimidation" or spellName == "Lullaby" or spellName == "Bad Manner" or spellName == "Web Wrap") and (destName == "Zileazx" or destName == "Zilea" or destName == "Thingtworyan" or destName == "Mydadsbutt" or destName == "Sodahz" or destName == "Thingtwotwo" or (string.find(destName,"Grave")) or (string.find(destName,"Vile")) or destName == "Bwinthehouse" or destName == "Coreygunz" or destName == "Veller") then
-				SpellNotifications_Print(string.upper(spellName).."!","purple","large")
-				SpellNotifications_PlaySound("train")
-			end
-		end
-	end
-end
+-- if (event=="SPELL_CAST_SUCCESS") then
+-- 	if bit.band(sourceFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) <= 0 then
+-- 		local spellName = select(13,...)
+-- 		if destName ~= nil then
+-- 			if (spellName == "Scatter Shot" or spellName == "Intimidation" or spellName == "Lullaby" or spellName == "Bad Manner" or spellName == "Web Wrap") and (destName == "Zileazx" or destName == "Zilea" or destName == "Thingtworyan" or destName == "Mydadsbutt" or destName == "Sodahz" or destName == "Thingtwotwo" or (string.find(destName,"Grave")) or (string.find(destName,"Vile")) or destName == "Bwinthehouse" or destName == "Coreygunz" or destName == "Veller") then
+-- 				SpellNotifications_Print(string.upper(spellName).."!","purple","large")
+-- 				SpellNotifications_PlaySound("train")
+-- 			end
+-- 		end
+-- 	end
+-- end
 
-if (event=="SPELL_AURA_APPLIED") then
-	if bit.band(sourceFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) <= 0 then
-		local spellName = select(13,...)
-		if destName ~= nil then
-			if spellName == "Bad Manner" and (destName == "Starshipx" or destName == "Zilea" or destName == "Taylorswift" or destName == "Mydadsbutt" or destName == "Sodahz" or destName == "Kollektiv" or (string.find(destName,"Grave")) or (string.find(destName,"Vile")) or destName == "Bwinthehouse" or destName == "Coreygunz" or destName == "Veller") then
-				SpellNotifications_Print(string.upper(spellName).."!","purple","large")
-				SpellNotifications_PlaySound("train")
-			end
-		end
-	end
-end
+-- if (event=="SPELL_AURA_APPLIED") then
+-- 	if bit.band(sourceFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) <= 0 then
+-- 		local spellName = select(13,...)
+-- 		if destName ~= nil then
+-- 			if spellName == "Bad Manner" and (destName == "Starshipx" or destName == "Zilea" or destName == "Taylorswift" or destName == "Mydadsbutt" or destName == "Sodahz" or destName == "Kollektiv" or (string.find(destName,"Grave")) or (string.find(destName,"Vile")) or destName == "Bwinthehouse" or destName == "Coreygunz" or destName == "Veller") then
+-- 				SpellNotifications_Print(string.upper(spellName).."!","purple","large")
+-- 				SpellNotifications_PlaySound("train")
+-- 			end
+-- 		end
+-- 	end
+-- end
 
-if (event=="SPELL_AURA_APPLIED") then
-	if bit.band(sourceFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) <= 0 then
-		local spellName = select(13,...)
-		if destName ~= nil then
-			if spellName == "Predatory Swiftness" then
-				--SpellNotifications_Print(string.upper(spellName).."!","orange","large")
-				--SpellNotifications_PlaySound("train")
-			end
-		end
-	end
-end
+-- if (event=="SPELL_AURA_APPLIED") then
+-- 	if bit.band(sourceFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) <= 0 then
+-- 		local spellName = select(13,...)
+-- 		if destName ~= nil then
+-- 			if spellName == "Predatory Swiftness" then
+-- 				--SpellNotifications_Print(string.upper(spellName).."!","orange","large")
+-- 				--SpellNotifications_PlaySound("train")
+-- 			end
+-- 		end
+-- 	end
+-- end
 
-
-if (event=="SPELL_CAST_SUCCESS") then
-	if bit.band(sourceFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) <= 0 then
-		local spellName = select(13,...)
-		if (spellName=="Dark Soul: Knowledge") and IsActiveBattlefieldArena() then
-			SpellNotifications_Print("Warlock is going HAM!","orange","large")
-			SpellNotifications_PlaySound("train")
-		end
-	end
-end
 
 if (event=="SPELL_DISPEL") then
 	if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
@@ -110,54 +101,11 @@ end
 
 if (event=="SPELL_STOLEN") then
 	if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
+		debug(...)
 		local spellName = select(16,...)
 		SpellNotifications_Print("Stole "..spellName..".","yellow","small") -- enemy target
 	end
 end
-
-
--- Category: Warrior
-
-if (currentSpecName=="Arms") and (UnitLevel("player") >= 81) then
-	if InCombatLockdown() then
-		if IsUsableSpell("Overpower") and (warnOP == true or warnOP == nil) then
-			SpellNotifications_PlaySound("cling")
-			warnOP = false
-		elseif not IsUsableSpell("Overpower") then
-			warnOP = true
-		end
-		_,duration = GetSpellCooldown("Colossus Smash")
-		if (duration == 0) and (warnCS == true or warnCS == nil) then
-			SpellNotifications_PlaySound("ding")
-			warnCS = false
-		elseif (duration >= 2) then
-			warnCS = true
-		end
-		if (event=="SPELL_AURA_APPLIED") then
-			if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-				local spellName = select(13,...)
-				if (spellName=="Sudden Death") and (warnCS == true or warnCS == nil) then
-					SpellNotifications_PlaySound("ding")
-					warnCS = false
-				end
-			end
-		end
-	end
-end
-
-if (event=="SPELL_AURA_APPLIED") then
-	if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-		local spellName = select(13,...)
-		if (spellName=="Avatar") then
-			if IsActiveBattlefieldArena() and UnitInParty("Valrathz") then
-				--SendChatMessage("Frenzy me!!!", "WHISPER", nil, "Valrathz");
-			end
-		end
-	end
-end
-
-
-
 
 
 
@@ -170,208 +118,24 @@ end
 
 
 
-if (event=="SPELL_AURA_APPLIED") or (event=="SPELL_AURA_APPLIED_DOSE") or (event=="SPELL_EXTRA_ATTACKS") then
-	if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-		local spellId,spellName = select(12,...)
-		if (event=="SPELL_AURA_APPLIED_DOSE") then
-			amount = select(14,...)
-		end
+-- if (event=="SPELL_AURA_APPLIED") or (event=="SPELL_AURA_APPLIED_DOSE") or (event=="SPELL_EXTRA_ATTACKS") then
+-- 	if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
+-- 		local spellId,spellName = select(12,...)
+-- 		if (event=="SPELL_AURA_APPLIED_DOSE") then
+-- 			amount = select(14,...)
+-- 		end
 
-		--Death Knight
-		if (spellName=="Killing Machine") then
-			--SpellNotifications_Print("Killing Machine!","green","large") -- or say icy touch maybe
-			--SpellNotifications_PlaySound("cling")
-		elseif (spellName=="Freezing Fog") then
-			--SpellNotifications_Print("Howling Blast!","blue","large")
-			--SpellNotifications_PlaySound("ding")
-		elseif (spellName=="Death Trance!") then
-			--SpellNotifications_Print("Death Coil!","green","large")
-			--SpellNotifications_PlaySound("ding")
+-- 	end
+-- end
 
-		--Druid
-		elseif (spellId==48517) then
-			--SpellNotifications_Print("Wrath!","green","large")
-			--SpellNotifications_PlaySound("ding")
-		elseif (spellId==48518) or (spellName=="Wrath of Elune") then
-			--SpellNotifications_Print("Starfire!","green","large")
-			--SpellNotifications_PlaySound("ding")
-		elseif (spellName=="Nature's Grace") then
-			--SpellNotifications_PlaySound("cling")
-		elseif (spellName=="Shooting Stars") and (class=="DRUID") then
-			--SpellNotifications_Print("Clearcast!","green","large")
-			SpellNotifications_PlaySound("ding")
-
-		--Hunter
-		elseif (spellName=="Lock and Load") then
-			--SpellNotifications_Print("Arcane Shot!","green","large") -- maybe say lock n load for explosive shot also
-			--SpellNotifications_PlaySound("ding")
-
-		--Mage
-		elseif (spellName=="Clearcasting") and (class=="MAGE") then
-			--SpellNotifications_Print("Clearcast!","green","large")
-			--SpellNotifications_PlaySound("cling")
-		elseif (spellName=="Fingers of Frost") then
-			--SpellNotifications_Print("Fingers of Frost!","blue","large")
-			SpellNotifications_PlaySound("cling")
-		elseif (spellName=="Fireball!") then
-			--SpellNotifications_Print("Fireball!","orange","large")
-			--SpellNotifications_PlaySound("ding")
-		elseif (spellName=="Firestarter") then
-			--SpellNotifications_Print("Flamestrike!","orange","large")
-			--SpellNotifications_PlaySound("ding")
-		elseif (spellName=="Hot Streak") then
-			--SpellNotifications_Print("Pyroblast!","orange","large")
-			--SpellNotifications_PlaySound("ding")
-		elseif (spellName=="Missile Barrage") then
-			--SpellNotifications_Print("Arcane Missiles!","green","large")
-			--SpellNotifications_PlaySound("ding")
-
-		--Paladin
-
-		--Priest
-
-		--Rogue
-		elseif (spellName=="Sword Specialization") or (spellName=="Hand of Justice") or (string.find(spellName,"Thrash")) then
-			--SpellNotifications_PlaySound("cling")
-
-		--Shaman
-		elseif (spellName=="Maelstrom Weapon") and (amount==5) and (event=="SPELL_AURA_APPLIED_DOSE") then
-			--SpellNotifications_Print("Maelstrom!","green","large")
-			--SpellNotifications_PlaySound("ding")
-
-		--Warlock
-		elseif (spellName=="Shadow Trance") then
-			--SpellNotifications_Print("Shadow Bolt!","purple","large")
-			SpellNotifications_PlaySound("ding")
-		elseif (spellName=="Backlash") or (spellName=="Molten Core") then
-			--SpellNotifications_Print("Incinerate!","orange","large")
-			--SpellNotifications_PlaySound("ding")
-
-		--Warrior
-		elseif (spellName=="Sword and Board") then
-			--SpellNotifications_Print("Shield Slam!","green","large")
-			--SpellNotifications_PlaySound("ding")
-		elseif (spellName=="Slam!") then
-			--SpellNotifications_Print("Slam!","green","large")
-			--SpellNotifications_PlaySound("ding")
-		elseif (spellName=="Sudden Death") then
-			--SpellNotifications_Print("Execute!","green","large")
-			--SpellNotifications_PlaySound("cling")
-		elseif spellName=="Taste for Blood" then
-			--SpellNotifications_Print("Overpower!","green","large")
-			--SpellNotifications_PlaySound("ding")
-
-		end
-	end
-end
-
-
-
---4/27 18:22:29.177  SPELL_MISSED,0x05000000027EF48C,"Veev",0x511,0x050000000285EB2D,"Valrathlol",0x10548,1715,"Hamstring",0x1,DODGE
---1/12 20:09:21.644  SPELL_AURA_APPLIED,0x0500000003580F5F,"Veev",0x511,0xF130007F9A002B25,"Expert's Training Dummy",0x10a28,64382,"Shattering Throw",0x1,DEBUFF
-if (class=="WARRIOR") then
-	if (event=="SWING_MISSED") or (event=="SPELL_MISSED") then
-		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-			if (event=="SWING_MISSED") then
-				missType = select(15,...)
-			else
-				missType = select(15,...)
-			end
-			if (missType=="DODGE") then
-				--SpellNotifications_PlaySound("ding")
-			end
-		end
-	elseif event=="SPELL_AURA_APPLIED" then
-		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-			local spellName = select(13,...)
-			if (spellName=="Shattering Throw") then
-				--SendChatMessage("Shattering Throw up on "..destName.."!", "YELL");
-			end
-		end
-	end
-end
-
-
---3/13 14:00:54.839  SPELL_PERIODIC_DAMAGE,0x000000000280B239,"V��x",0x511,0x0000000002967F3C,"Y�d�",0x10548,47857,"Drain Life",0x20,414,0,32,46,0,0,nil,nil,nil
---3/13 14:01:00.244  SPELL_PERIODIC_LEECH,0x000000000280B239,"V��x",0x511,0x0000000002967F3C,"Y�d�",0x10548,5138,"Drain Mana",0x20,389,0,389
-if (event=="SPELL_CAST_SUCCESS") or (event=="SPELL_PERIODIC_DAMAGE") then
-	if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-		local spellName = select(13,...)
-		if (spellName=="Drain Soul") then
-			local amount = select(15,...)
-			local critical = select(21,...)
-			if (event=="SPELL_CAST_SUCCESS") then
-				SpellNotifications_DrainCount = 0
-			elseif (event=="SPELL_PERIODIC_DAMAGE") then
-				SpellNotifications_DrainCount = SpellNotifications_DrainCount + 1
-				if (SpellNotifications_DrainColor=="orange") or (SpellNotifications_DrainColor==nil) then
-					SpellNotifications_DrainColor = "blue"
-				elseif (SpellNotifications_DrainColor=="blue") then
-					SpellNotifications_DrainColor = "purple"
-				elseif (SpellNotifications_DrainColor=="purple") then
-					SpellNotifications_DrainColor = "red"
-				elseif (SpellNotifications_DrainColor=="red") then
-					SpellNotifications_DrainColor = "orange"
-				end
-				if critical==1 then
-					SpellNotifications_Print(""..amount.."!",SpellNotifications_DrainColor,"small")
-				else
-					SpellNotifications_Print(""..amount.."",SpellNotifications_DrainColor,"small")
-				end
-				if (spellName=="Drain Soul") then
-					SpellNotifications_PlaySound("bell")
-				end
-			end
-		end
-	end
-end
 
 --12/26 19:53:55.151  UNIT_DIED,0x0000000000000000,nil,0x80000000,0xF140A698C50150C4,"Czaafum",0x11111
 if (event=="UNIT_DIED") then
 	if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 		if bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PET) > 0 then
 			SpellNotifications_Print("Pet dead.","red","large")
-			SpellNotifications_PlaySound("buzz")
-		end
 	end
 end
-
-
-
-
-if (event=="UNIT_HEALTH") then
-	if (not SpellNotifications_ExecuteWarn) then
-		if (UnitClassification("target")=="worldboss") or (UnitIsPlayer("target")) then
-			if (class=="WARLOCK") then
-				if (((UnitHealth("target") / UnitHealthMax("target")) * 100) <= 25) and (UnitHealth("target") > 0) then
-					if (UnitClassification("target")=="worldboss") then
-						RaidNotice_AddMessage(RaidBossEmoteFrame, "Drain Soul!", ChatTypeInfo["RAID_WARNING"])
-						--SpellNotifications_PlaySound("lock_execute")
-						SpellNotifications_PlaySound("laser")
-					else
-						--SpellNotifications_PlaySound("laser")
-					end
-					SpellNotifications_ExecuteWarn = true;
-				end
-			end
-		end
-	end
-end
-
-if (event=="UNIT_HEALTH") then
-	if (not SpellNotifications_ExecuteWarn) then
-		if (UnitClassification("target")=="worldboss") or (UnitIsPlayer("target")) then
-			if (class=="WARLOCK") then
-				if (((UnitHealth("target") / UnitHealthMax("target")) * 100) > 25) then
-					SpellNotifications_ExecuteWarn = false;
-				end
-			end
-		end
-	end
-end
-
-if (event=="PLAYER_TARGET_CHANGED") then
-	SpellNotifications_ExecuteWarn = false;
 end
 
 
@@ -381,6 +145,7 @@ if (event=="SPELL_INTERRUPT") then
 	if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 		local extraSchool = select(17,...)
 
+		print(extraSchool)
 		if extraSchool==1 then
 			SpellSchool="Physical"
 		elseif extraSchool==2 then
