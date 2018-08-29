@@ -1,6 +1,6 @@
 ## Interface: 80000
 ## Title: SpellNotifications
-## Notes: Simple spell notifications tailored to each and every class. Original by Veex-Executus(US), 8.0 Version updated by LucyON
-## Version: 8.0
+## Notes: Simple spell notifications tailored to each and every class. Original by Veex-Executus(US), v2.0.0 updated by LucyON
+## Version: 2.0.0
 ## Author: LucyON
 SpellNotifications.xml

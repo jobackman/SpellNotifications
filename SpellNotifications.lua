@@ -1,4 +1,4 @@
--- 8.0 Version updated by LucyON
+-- 2.0 Version updated by LucyON
 
 --[[
 grounding totem similar to reflect
