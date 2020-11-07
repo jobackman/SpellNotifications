@@ -1,4 +1,4 @@
-## Interface: 80000
+## Interface: 90001
 ## Title: SpellNotifications
 ## Notes: Simple spell notifications tailored to each and every class. Original by Veex-Executus(US), v2.0.0 updated by LucyON
 ## Version: 2.0.0
