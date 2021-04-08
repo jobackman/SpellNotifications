@@ -42,7 +42,7 @@ function SpellNotifications_OnLoad(self)
 	self:RegisterEvent("ACTIONBAR_UPDATE_STATE");
 end
 
-function SpellNotifications_OnEvent(event,...)
+function SpellNotifications_OnEvent(event)
 
 	local currentSpec = GetSpecialization()
 	local currentSpecName = currentSpec and select(2, GetSpecializationInfo(currentSpec)) or "None"
@@ -205,7 +205,7 @@ function SpellNotifications_OnEvent(event,...)
 	end
 	if (event=="SPELL_DAMAGE") then
 		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-			local spellName = select(13,...)
+			local spellName = select(13, CombatLogGetCurrentEventInfo())
 			if (destName=="Grounding Totem") then
 				SpellNotifications_Print("Grounded "..spellName..".","white","small")
 			end
