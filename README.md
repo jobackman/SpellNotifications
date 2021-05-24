@@ -17,5 +17,8 @@ It has been updated for BFA's 8.0 change to combat log events, which had made th
 
 # Showcase
 ![Missed spells](https://cdn.discordapp.com/attachments/249637569636204555/483729453260865536/unknown.png)
+![evaded spells](https://user-images.githubusercontent.com/732505/119417757-d5361480-bcf6-11eb-98f6-a53e9d869633.png)
+![stolen spells](https://user-images.githubusercontent.com/732505/119417851-0d3d5780-bcf7-11eb-9508-bb57e6a3fd4c.png)
+
 
 _More image examples coming soon™_
