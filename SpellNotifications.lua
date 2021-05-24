@@ -44,8 +44,10 @@ end
 
 function SpellNotifications_OnEvent(event)
 
+	--@retail@
 	local currentSpec = GetSpecialization()
 	local currentSpecName = currentSpec and select(2, GetSpecializationInfo(currentSpec)) or "None"
+	--@end-retail@
 
 	local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = CombatLogGetCurrentEventInfo()
 	--        1        2       3           4            5           6              7              8        9          10          11
