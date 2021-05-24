@@ -1,30 +1,5 @@
 -- 2.0 Version updated by LucyON
 
---[[
-grounding totem similar to reflect
-killing blow for warr only
-display what my intervene takes
-revenge stun proc, warlock nightfall glyph
-imp hs, hs glyph
-warlock eradication (spell haste)
-druid aoe taunt and dk/pal taunt etc
-mage spell steal like sham purge
-2 diff type of dispell resists
-
-warnings on adrenaline rush
-reckless
-shield wall
-retal if rogue
-
-3/13 13:54:39.633  UNIT_DIED,0x0000000000000000,nil,0x80000000,0xF13000172504787F,"Grounding Totem",0x2111
-totem dying, add totem stomp warnings for all diff events
-
---NEW
-spell reflects on others, intervenes
-check for event for when i remove ice block/divine shield and add a normal dispel mssg for shatter
-sudden death proc for colossus
---]]
-
 local _
 local reflected = {}
 local duration
@@ -44,10 +19,6 @@ end
 
 function SpellNotifications_OnEvent(event)
 
-	--@retail@
-	local currentSpec = GetSpecialization()
-	local currentSpecName = currentSpec and select(2, GetSpecializationInfo(currentSpec)) or "None"
-	--@end-retail@
 
 	local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = CombatLogGetCurrentEventInfo()
 	--        1        2       3           4            5           6              7              8        9          10          11
@@ -79,9 +50,6 @@ function SpellNotifications_OnEvent(event)
 		end
 	end
 	end
-
-
-
 
 	if (event=="SPELL_INTERRUPT") then
 		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
@@ -162,9 +130,6 @@ function SpellNotifications_OnEvent(event)
 	end
 
 
-
-
-
 	--9/28 20:58:34.485  SPELL_AURA_APPLIED,0x0400000005D8000F,"Veev",0x511,0x0,0x0400000005D8A13D,"Valrathz",0x512,0x0,114028,"Mass Spell Reflection",0x1,BUFF
 	if event=="SPELL_AURA_APPLIED" or event=="SPELL_AURA_REMOVED" then
 		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
@@ -190,10 +155,6 @@ function SpellNotifications_OnEvent(event)
 			end
 		end
 	end
-
-
-
-
 
 	if (event=="SPELL_MISSED") then
 		if (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0) then
@@ -275,14 +236,7 @@ function SpellNotifications_OnEvent(event)
 			end
 		end
 	end
-
-
-
 end
-
--- end of SpellNotifications_OnEvent
-
-
 
 
 function SpellNotifications_Print(text,color,size)
@@ -324,11 +278,11 @@ function SpellNotifications_Print(text,color,size)
 
 end
 
-function SpellNotifications_PlaySound(sound)
+--[[ function SpellNotifications_PlaySound(sound)
 	PlaySoundFile("Interface\\AddOns\\SpellNotifications\\Sounds\\"..sound..".mp3", "Master");
-end
+end ]]
 
-function SpellNotifications_ErrorsFrame_AddMessage(self,msg,...)
+--[[ function SpellNotifications_ErrorsFrame_AddMessage(self,msg,...)
 	local lowermsg = string.lower(msg)
 	if (string.find(lowermsg,"not enough")) or (string.find(lowermsg,"not ready")) or (string.find(lowermsg,"nothing to attack")) or (string.find(lowermsg,"can't attack")) or (string.find(lowermsg,"can't do")) or (string.find(lowermsg,"unable to move")) or (string.find(lowermsg,"must equip")) or (lowermsg=="interrupted") or (string.find(lowermsg,"target is dead")) or (string.find(lowermsg,"invalid target")) or (string.find(lowermsg,"line of sight")) or (string.find(lowermsg,"you are dead")) or (string.find(lowermsg,"no target")) or (string.find(lowermsg,"another action")) or (string.find(lowermsg,"you are stunned")) or (string.find(lowermsg,"wrong way")) or (string.find(lowermsg,"out of range")) or (string.find(lowermsg,"front of you")) or (string.find(lowermsg,"you cannot attack")) or (string.find(lowermsg,"too far away")) or (string.find(lowermsg,"must be in")) or (string.find(lowermsg,"too close")) or (string.find(lowermsg,"requires combo")) or (string.find(lowermsg,"in combat")) or (string.find(lowermsg,"not in control")) or (string.find(lowermsg,"must have")) or (string.find(lowermsg,"nothing to dispel")) or (string.find(lowermsg,"in an arena")) or (string.find(lowermsg,"while pacified")) then
 		return;
@@ -340,4 +294,4 @@ function SpellNotifications_HookErrorsFrame()
 	local ef = getglobal("UIErrorsFrame");
 	ef.SpellNotifications_Orig_AddMessage = ef.AddMessage;
 	ef.AddMessage = SpellNotifications_ErrorsFrame_AddMessage;
-end
+end ]]
