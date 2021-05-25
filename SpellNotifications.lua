@@ -62,12 +62,17 @@ function SpellNotifications.OnEvent(event)
 	end
 
 
-	if (event=="UNIT_DIED") then
+	if (
+		event == "UNIT_DIED" or
+		event == "UNIT_DESTROYED" or
+		event == "UNIT_DESTROYED"
+	) then
 		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			if bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PET) > 0 then
 				addon.print("Pet dead.", "red", size.LARGE)
+				addon.playSound("buzz")
+			end
 		end
-	end
 	end
 
 
