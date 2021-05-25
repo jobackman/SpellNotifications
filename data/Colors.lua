@@ -2,42 +2,42 @@ local _, addon = ...
 
 function addon.Colors()
     return {
-        ["blue"] = {
+        ["BLUE"] = {
             ["R"] = 0,
             ["G"] = .75,
             ["B"] = 1
         },
-        ["green"] = {
+        ["GREEN"] = {
             ["R"] = .5,
             ["G"] = 1,
             ["B"] = 0
         },
-        ["yellow"] = {
+        ["YELLOW"] = {
             ["R"] = 1,
             ["G"] = 1,
             ["B"] = 0
         },
-        ["orange"] = {
+        ["ORANGE"] = {
             ["R"] = 1,
             ["G"] = .65,
             ["B"] = 0
         },
-        ["red"] = {
+        ["RED"] = {
             ["R"] = 1,
             ["G"] = 0,
             ["B"] = 0
         },
-        ["purple"] = {
+        ["PURPLE"] = {
             ["R"] = .93,
             ["G"] = .51,
             ["B"] = .93
         },
-        ["black"] = {
+        ["BLACK"] = {
             ["R"] = 0,
             ["G"] = 0,
             ["B"] = 0
         },
-        ["white"] = {
+        ["WHITE"] = {
             ["R"] = 1,
             ["G"] = 1,
             ["B"] = 1
