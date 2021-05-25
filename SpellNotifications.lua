@@ -66,7 +66,7 @@ function SpellNotifications.OnEvent(event)
 	if (
 		event == "UNIT_DIED" or
 		event == "UNIT_DESTROYED" or
-		event == "UNIT_DESTROYED"
+		event == "UNIT_DISSIPATES"
 	) then
 		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			if bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PET) > 0 then
