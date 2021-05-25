@@ -29,7 +29,8 @@ function SpellNotifications.OnEvent(event)
 	local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = CombatLogGetCurrentEventInfo()
 	--        1        2       3           4            5           6              7              8        9          10          11
 	local _,class = UnitClass("player")
-	local size = addon.Sizes()
+	local sizes = addon.Sizes()
+	local SMALL, LARGE = sizes["SMALL"], sizes["LARGE"]
 
 	if (event=="SPELL_INTERRUPT") then
 		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
@@ -39,7 +40,7 @@ function SpellNotifications.OnEvent(event)
 			if spellSchool == nil then
 				spellSchool = "unknown spell school"
 			end
-			addon.print("Interrupted "..string.lower(spellSchool)..".", "green", size.SMALL)
+			addon.print("Interrupted "..string.lower(spellSchool)..".", "green", SMALL)
 		end
 	end
 
@@ -47,9 +48,9 @@ function SpellNotifications.OnEvent(event)
 		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			local spellName = select(16, CombatLogGetCurrentEventInfo());
 			if bit.band(destFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) > 0 then
-				addon.print("Dispelled "..spellName..".", "white", size.SMALL) -- friendly target
+				addon.print("Dispelled "..spellName..".", "white", SMALL) -- friendly target
 			else
-				addon.print("Dispelled "..spellName..".", "yellow", size.SMALL) -- enemy target
+				addon.print("Dispelled "..spellName..".", "yellow", SMALL) -- enemy target
 			end
 		end
 	end
@@ -57,7 +58,7 @@ function SpellNotifications.OnEvent(event)
 	if (event=="SPELL_STOLEN") then
 		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			local spellName = select(16, CombatLogGetCurrentEventInfo());
-			addon.print("Stole "..spellName..".", "yellow", size.SMALL) -- enemy target
+			addon.print("Stole "..spellName..".", "yellow", SMALL) -- enemy target
 		end
 	end
 
@@ -69,7 +70,7 @@ function SpellNotifications.OnEvent(event)
 	) then
 		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			if bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PET) > 0 then
-				addon.print("Pet dead.", "red", size.LARGE)
+				addon.print("Pet dead.", "red", LARGE)
 				addon.playSound("buzz")
 			end
 		end
@@ -95,7 +96,7 @@ function SpellNotifications.OnEvent(event)
 			if (missType=="REFLECT") then
 				if reflected[destGUID] ~= nil then
 					if reflected[destGUID] then
-						addon.print("Reflected "..spellName..".", "blue", size.SMALL)
+						addon.print("Reflected "..spellName..".", "blue", SMALL)
 					end
 				end
 			end
@@ -106,9 +107,9 @@ function SpellNotifications.OnEvent(event)
 		if (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0) then
 			local spellName,_,missType = select(13, CombatLogGetCurrentEventInfo())
 			if (missType=="REFLECT") then
-				addon.print("Reflected "..spellName..".", "white", size.SMALL)
+				addon.print("Reflected "..spellName..".", "white", SMALL)
 			elseif (destName=="Grounding Totem") and (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0) then
-				addon.print("Grounded "..spellName..".", "white", size.SMALL)
+				addon.print("Grounded "..spellName..".", "white", SMALL)
 			end
 		end
 	end
@@ -116,7 +117,7 @@ function SpellNotifications.OnEvent(event)
 		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			local spellName = select(13, CombatLogGetCurrentEventInfo())
 			if (destName=="Grounding Totem") then
-				addon.print("Grounded "..spellName..".", "white", size.SMALL)
+				addon.print("Grounded "..spellName..".", "white", SMALL)
 			end
 		end
 	end
