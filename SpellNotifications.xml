@@ -10,11 +10,11 @@
 	<Frame name="SpellNotifications_Frame">
 		<Scripts>
 			<OnLoad>
-				SpellNotifications_OnLoad(self);
-				SpellNotifications_HookErrorsFrame();
+				SpellNotifications.OnLoad(self);
+				SpellNotifications.HookErrorsFrame();
 			</OnLoad>
 			<OnEvent>
-				SpellNotifications_OnEvent(event,...);
+				SpellNotifications.OnEvent(event,...);
 			</OnEvent>
 		</Scripts>
 	</Frame>

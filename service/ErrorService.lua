@@ -1,23 +1,24 @@
 local _, addon = ...
 
-function SpellNotifications_ErrorsFrame_AddMessage(self, msg, ...)
+function addon.ErrorsFrame_AddMessage(self, msg, ...)
     local lowermsg = string.lower(msg)
-    local messages = messages()
+    local contains = addon.tableContains
+    local standardErrorMessages = addon.standardErrorMessages()
 
-    if (contains(messages, lowermsg)) then
+    if (contains(standardErrorMessages, lowermsg)) then
         return;
     end
 
-    return self:SpellNotifications_Orig_AddMessage(msg, ...);
+    return self:Original_AddMessage(msg, ...);
 end
 
-function SpellNotifications_HookErrorsFrame()
+function addon.HookErrorsFrame()
     local ef = getglobal("UIErrorsFrame");
-    ef.SpellNotifications_Orig_AddMessage = ef.AddMessage;
-    ef.AddMessage = SpellNotifications_ErrorsFrame_AddMessage;
+    ef.Original_AddMessage = ef.AddMessage;
+    ef.AddMessage = addon.ErrorsFrame_AddMessage;
 end
 
-function contains(tab, val)
+function addon.tableContains(tab, val)
     for index, value in ipairs(tab) do
         if value == val then
             return true
@@ -26,7 +27,7 @@ function contains(tab, val)
     return false
 end
 
-function messages()
+function addon.standardErrorMessages()
     return {
         "not enough", "not ready", "nothing to attack", "can't attack",
         "can't do", "unable to move", "must equip", "target is dead",

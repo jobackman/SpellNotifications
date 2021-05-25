@@ -1,12 +1,14 @@
 -- 2.0 Version updated by LucyON
 local _, addon = ...
 
+SpellNotifications = addon
+
 local reflected = {}
 local duration
 local warnOP
 local warnCS
 
-function SpellNotifications_OnLoad(self)
+function SpellNotifications.OnLoad(self)
 	local _,class = UnitClass("player")
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
 	self:RegisterEvent("UNIT_HEALTH");
@@ -15,11 +17,12 @@ function SpellNotifications_OnLoad(self)
 	self:RegisterEvent("PLAYER_REGEN_ENABLED"); -- leave combat
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	self:RegisterEvent("ACTIONBAR_UPDATE_STATE");
+	--@debug@
+	-- ViragDevTool_AddData(addon, "SpellNotifications")
+	--@end-debug@
 end
 
-function SpellNotifications_OnEvent(event)
-
-
+function SpellNotifications.OnEvent(event)
 	local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = CombatLogGetCurrentEventInfo()
 	--        1        2       3           4            5           6              7              8        9          10          11
 
@@ -237,66 +240,3 @@ function SpellNotifications_OnEvent(event)
 		end
 	end
 end
-
---[[
-function SpellNotifications_Print(text,color,size)
-
-	local color = string.lower(color)
-	local size = string.lower(size)
-
-
-	if color == "blue" then
-		R = 0; G = .75; B = 1
-	elseif color == "green" then
-		R = .5; G = 1; B = 0
-	elseif color == "yellow" then
-		R = 1; G = 1; B = 0
-	elseif color == "orange" then
-		R = 1; G = .65; B = 0
-	elseif color == "red" then
-		R = 1; G = 0; B = 0
-	elseif color == "purple" then
-		R = .93; G = .51; B = .93
-	elseif color == "black" then
-		R = 0; G = 0; B = 0
-	else -- color == "white"
-		R = 1; G = 1; B = 1
-	end
-
-	if size == "large" or size == "big" then
-		ZoneTextString:SetText(text);
-		PVPInfoTextString:SetText("");
-		ZoneTextFrame.startTime = GetTime()
-		ZoneTextFrame.fadeInTime = 0
-		ZoneTextFrame.holdTime = 1
-		ZoneTextFrame.fadeOutTime = 2
-		ZoneTextString:SetTextColor(R,G,B);
-		ZoneTextFrame:Show()
-	else -- size == "small"
-		UIErrorsFrame:AddMessage(text,R,G,B);
-	end
-
-end
- ]]
-
- --[[
-function SpellNotifications_PlaySound(sound)
-	PlaySoundFile("Interface\\AddOns\\SpellNotifications\\Sounds\\"..sound..".mp3", "Master");
-end
-]]
-
---[[
-function SpellNotifications_ErrorsFrame_AddMessage(self,msg,...)
-	local lowermsg = string.lower(msg)
-	if (string.find(lowermsg,"not enough")) or (string.find(lowermsg,"not ready")) or (string.find(lowermsg,"nothing to attack")) or (string.find(lowermsg,"can't attack")) or (string.find(lowermsg,"can't do")) or (string.find(lowermsg,"unable to move")) or (string.find(lowermsg,"must equip")) or (lowermsg=="interrupted") or (string.find(lowermsg,"target is dead")) or (string.find(lowermsg,"invalid target")) or (string.find(lowermsg,"line of sight")) or (string.find(lowermsg,"you are dead")) or (string.find(lowermsg,"no target")) or (string.find(lowermsg,"another action")) or (string.find(lowermsg,"you are stunned")) or (string.find(lowermsg,"wrong way")) or (string.find(lowermsg,"out of range")) or (string.find(lowermsg,"front of you")) or (string.find(lowermsg,"you cannot attack")) or (string.find(lowermsg,"too far away")) or (string.find(lowermsg,"must be in")) or (string.find(lowermsg,"too close")) or (string.find(lowermsg,"requires combo")) or (string.find(lowermsg,"in combat")) or (string.find(lowermsg,"not in control")) or (string.find(lowermsg,"must have")) or (string.find(lowermsg,"nothing to dispel")) or (string.find(lowermsg,"in an arena")) or (string.find(lowermsg,"while pacified")) then
-		return;
-	end
-	return self:SpellNotifications_Orig_AddMessage(msg,...);
-end
-
-function SpellNotifications_HookErrorsFrame()
-	local ef = getglobal("UIErrorsFrame");
-	ef.SpellNotifications_Orig_AddMessage = ef.AddMessage;
-	ef.AddMessage = SpellNotifications_ErrorsFrame_AddMessage;
-end
-]]
