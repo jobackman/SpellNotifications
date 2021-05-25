@@ -188,10 +188,8 @@ function SpellNotifications.OnEvent(event)
 					return;
 				elseif (destName=="Grounding Totem") then
 					resistMethod = "grounded"
-					MySpellGrounded = true;
 				elseif (missType=="REFLECT") then
 					resistMethod = "reflected"
-					MySpellReflected = true;
 				elseif resistMethod == nil then
 					resistMethod = "missed"
 				else
