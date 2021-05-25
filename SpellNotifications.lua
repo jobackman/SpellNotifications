@@ -1,4 +1,7 @@
--- 2.0 Version updated by LucyON
+--[[
+	Version 2.0 updated by LucyON
+]]
+
 local _, addon = ...
 
 SpellNotifications = addon
@@ -25,15 +28,28 @@ end
 function SpellNotifications.OnEvent(event)
 	local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = CombatLogGetCurrentEventInfo()
 	--        1        2       3           4            5           6              7              8        9          10          11
+	local _,class = UnitClass("player")
+	local size = addon.Sizes()
 
+	if (event=="SPELL_INTERRUPT") then
+		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
+			local extraSchool = select(17, CombatLogGetCurrentEventInfo())
+			local spellSchool = addon.SpellSchools()[extraSchool]
+
+			if spellSchool == nil then
+				spellSchool = "unknown spell school"
+			end
+			addon.print("Interrupted "..string.lower(spellSchool)..".", "green", size.SMALL)
+		end
+	end
 
 	if (event=="SPELL_DISPEL") then
 		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			local spellName = select(16, CombatLogGetCurrentEventInfo());
 			if bit.band(destFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) > 0 then
-				addon.print("Dispelled "..spellName..".","white","small") -- friendly target
+				addon.print("Dispelled "..spellName..".", "white", size.SMALL) -- friendly target
 			else
-				addon.print("Dispelled "..spellName..".","yellow","small") -- enemy target
+				addon.print("Dispelled "..spellName..".", "yellow", size.SMALL) -- enemy target
 			end
 		end
 	end
@@ -41,7 +57,7 @@ function SpellNotifications.OnEvent(event)
 	if (event=="SPELL_STOLEN") then
 		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			local spellName = select(16, CombatLogGetCurrentEventInfo());
-			addon.print("Stole "..spellName..".","yellow","small") -- enemy target
+			addon.print("Stole "..spellName..".", "yellow", size.SMALL) -- enemy target
 		end
 	end
 
@@ -49,87 +65,9 @@ function SpellNotifications.OnEvent(event)
 	if (event=="UNIT_DIED") then
 		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			if bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PET) > 0 then
-				addon.print("Pet dead.","red","large")
+				addon.print("Pet dead.", "red", size.LARGE)
 		end
 	end
-	end
-
-	if (event=="SPELL_INTERRUPT") then
-		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
-			local extraSchool = select(17, CombatLogGetCurrentEventInfo())
-
-			if extraSchool==1 then
-				SpellSchool="Physical"
-			elseif extraSchool==2 then
-				SpellSchool="Holy"
-			elseif extraSchool==4 then
-				SpellSchool="Fire"
-			elseif extraSchool==8 then
-				SpellSchool="Nature"
-			elseif extraSchool==16 then
-				SpellSchool="Frost"
-			elseif extraSchool==32 then
-				SpellSchool="Shadow"
-			elseif extraSchool==64 then
-				SpellSchool="Arcane"
-			elseif extraSchool==3 then
-				SpellSchool="Holystrike"
-			elseif extraSchool==5 then
-				SpellSchool="Flamestrike"
-			elseif extraSchool==6 then
-				SpellSchool="Holyfire"
-			elseif extraSchool==9 then
-				SpellSchool="Stormstrike"
-			elseif extraSchool==10 then
-				SpellSchool="Holystorm"
-			elseif extraSchool==12 then
-				SpellSchool="Firestorm"
-			elseif extraSchool==17 then
-				SpellSchool="Froststrike"
-			elseif extraSchool==18 then
-				SpellSchool="Holyfrost"
-			elseif extraSchool==20 then
-				SpellSchool="Frostfire"
-			elseif extraSchool==24 then
-				SpellSchool="Froststorm"
-			elseif extraSchool==33 then
-				SpellSchool="Shadowstrike"
-			elseif extraSchool==34 then
-				SpellSchool="Twilight"
-			elseif extraSchool==36 then
-				SpellSchool="Shadowflame"
-			elseif extraSchool==40 then
-				SpellSchool="Plague"
-			elseif extraSchool==48 then
-				SpellSchool="Shadowfrost"
-			elseif extraSchool==65 then
-				SpellSchool="Spellstrike"
-			elseif extraSchool==66 then
-				SpellSchool="Divine"
-			elseif extraSchool==68 then
-				SpellSchool="Spellfire"
-			elseif extraSchool==72 then
-				SpellSchool="Spellstorm"
-			elseif extraSchool==80 then
-				SpellSchool="Spellfrost"
-			elseif extraSchool==96 then
-				SpellSchool="Spellshadow"
-			elseif extraSchool==28 then
-				SpellSchool="Elemental"
-			elseif extraSchool==124 then
-				SpellSchool="Chromatic"
-			elseif extraSchool==126 then
-				SpellSchool="Magic"
-			elseif extraSchool==127 then
-				SpellSchool="Chaos"
-			else
-				SpellSchool = "unknown spell school"
-			end
-			if SpellSchool==nil then
-				SpellSchool = "unknown spell school"
-			end
-			addon.print("Interrupted "..string.lower(SpellSchool)..".","green","small")
-		end
 	end
 
 
@@ -152,7 +90,7 @@ function SpellNotifications.OnEvent(event)
 			if (missType=="REFLECT") then
 				if reflected[destGUID] ~= nil then
 					if reflected[destGUID] then
-						addon.print("Reflected "..spellName..".","blue","small")
+						addon.print("Reflected "..spellName..".", "blue", size.SMALL)
 					end
 				end
 			end
@@ -163,9 +101,9 @@ function SpellNotifications.OnEvent(event)
 		if (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0) then
 			local spellName,_,missType = select(13, CombatLogGetCurrentEventInfo())
 			if (missType=="REFLECT") then
-				addon.print("Reflected "..spellName..".","white","small")
+				addon.print("Reflected "..spellName..".", "white", size.SMALL)
 			elseif (destName=="Grounding Totem") and (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0) then
-				addon.print("Grounded "..spellName..".","white","small")
+				addon.print("Grounded "..spellName..".", "white", size.SMALL)
 			end
 		end
 	end
@@ -173,7 +111,7 @@ function SpellNotifications.OnEvent(event)
 		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			local spellName = select(13, CombatLogGetCurrentEventInfo())
 			if (destName=="Grounding Totem") then
-				addon.print("Grounded "..spellName..".","white","small")
+				addon.print("Grounded "..spellName..".", "white", size.SMALL)
 			end
 		end
 	end
@@ -193,6 +131,7 @@ function SpellNotifications.OnEvent(event)
 				elseif (string.find(lowspell,"ravage")) then
 					spellName = "Ravage"
 				end
+
 				if (missType=="ABSORB") then
 					return;
 				elseif (destName=="Grounding Totem") then
@@ -220,10 +159,11 @@ function SpellNotifications.OnEvent(event)
 				end
 
 				if (ResistMethod=="immune") or (ResistMethod=="evaded") then
-					addon.print(""..spellName.." "..ResistMethod..".","red","large")
+					addon.print(""..spellName.." "..ResistMethod..".", "red", size.LARGE)
 				else
-					addon.print(""..spellName.." "..ResistMethod..".","white","large")
+					addon.print(""..spellName.." "..ResistMethod..".", "white", size.LARGE)
 				end
+
 				if (ResistMethod ~= "immune") then
 					if (spellName=="Mocking Blow") or (spellName=="Challenging Shout") or (spellName=="Taunt") or (spellName=="Growl") or (spellName=="Challenging Roar") then
 						lowerspellName = string.lower(spellName)
