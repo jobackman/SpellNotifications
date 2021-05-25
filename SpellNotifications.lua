@@ -29,8 +29,8 @@ function SpellNotifications.OnEvent(event)
 	local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = CombatLogGetCurrentEventInfo()
 	--        1        2       3           4            5           6              7              8        9          10          11
 	local _,class = UnitClass("player")
-	local sizes = addon.Sizes()
-	local SMALL, LARGE = sizes["SMALL"], sizes["LARGE"]
+	local size = addon.Sizes()
+	local color = addon.Colors()
 
 	if (event=="SPELL_INTERRUPT") then
 		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
@@ -40,7 +40,7 @@ function SpellNotifications.OnEvent(event)
 			if spellSchool == nil then
 				spellSchool = "unknown spell school"
 			end
-			addon.print("Interrupted "..string.lower(spellSchool)..".", "green", SMALL)
+			addon.print("Interrupted "..string.lower(spellSchool)..".", color.GREEN, size.SMALL)
 		end
 	end
 
@@ -48,9 +48,9 @@ function SpellNotifications.OnEvent(event)
 		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			local spellName = select(16, CombatLogGetCurrentEventInfo());
 			if bit.band(destFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) > 0 then
-				addon.print("Dispelled "..spellName..".", "white", SMALL) -- friendly target
+				addon.print("Dispelled "..spellName..".", color.WHITE, size.SMALL) -- friendly target
 			else
-				addon.print("Dispelled "..spellName..".", "yellow", SMALL) -- enemy target
+				addon.print("Dispelled "..spellName..".", color.YELLOW, size.SMALL) -- enemy target
 			end
 		end
 	end
@@ -58,7 +58,7 @@ function SpellNotifications.OnEvent(event)
 	if (event=="SPELL_STOLEN") then
 		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			local spellName = select(16, CombatLogGetCurrentEventInfo());
-			addon.print("Stole "..spellName..".", "yellow", SMALL) -- enemy target
+			addon.print("Stole "..spellName..".", color.YELLOW, size.SMALL) -- enemy target
 		end
 	end
 
@@ -70,7 +70,7 @@ function SpellNotifications.OnEvent(event)
 	) then
 		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			if bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PET) > 0 then
-				addon.print("Pet dead.", "red", LARGE)
+				addon.print("Pet dead.", color.RED, size.LARGE)
 				addon.playSound("buzz")
 			end
 		end
@@ -96,7 +96,7 @@ function SpellNotifications.OnEvent(event)
 			if (missType=="REFLECT") then
 				if reflected[destGUID] ~= nil then
 					if reflected[destGUID] then
-						addon.print("Reflected "..spellName..".", "blue", SMALL)
+						addon.print("Reflected "..spellName..".", color.BLUE, size.SMALL)
 					end
 				end
 			end
@@ -107,9 +107,9 @@ function SpellNotifications.OnEvent(event)
 		if (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0) then
 			local spellName,_,missType = select(13, CombatLogGetCurrentEventInfo())
 			if (missType=="REFLECT") then
-				addon.print("Reflected "..spellName..".", "white", SMALL)
+				addon.print("Reflected "..spellName..".", color.WHITE, size.SMALL)
 			elseif (destName=="Grounding Totem") and (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0) then
-				addon.print("Grounded "..spellName..".", "white", SMALL)
+				addon.print("Grounded "..spellName..".", color.WHITE, size.SMALL)
 			end
 		end
 	end
@@ -117,7 +117,7 @@ function SpellNotifications.OnEvent(event)
 		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			local spellName = select(13, CombatLogGetCurrentEventInfo())
 			if (destName=="Grounding Totem") then
-				addon.print("Grounded "..spellName..".", "white", SMALL)
+				addon.print("Grounded "..spellName..".", color.WHITE, size.SMALL)
 			end
 		end
 	end
@@ -141,10 +141,10 @@ function SpellNotifications.OnEvent(event)
 					resistMethod = "unknown"
 				end
 
-				if (resistMethod=="immune") or (resistMethod=="evaded") then
-					addon.print(""..spellName.." "..resistMethod..".","red","large")
+				if (ResistMethod=="immune") or (ResistMethod=="evaded") then
+					addon.print(""..spellName.." "..ResistMethod..".", color.RED, size.LARGE)
 				else
-					addon.print(""..spellName.." "..resistMethod..".","white","large")
+					addon.print(""..spellName.." "..ResistMethod..".", color.WHITE, size.LARGE)
 				end
 			end
 		end

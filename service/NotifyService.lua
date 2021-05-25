@@ -1,16 +1,13 @@
 local _,addon=...;
 
 function addon.print(text, color, size)
-    local color = string.lower(color)
-    local size = string.lower(size)
     local sizes = addon.Sizes()
-    local colors = addon.Colors()[color]
     local R, G, B
 
-    if colors == nil then
+    if color == nil then
         R, G, B = 1, 1, 1 -- white default
     else
-        R, G, B = colors["R"], colors["G"], colors["B"]
+        R, G, B = color["R"], color["G"], color["B"]
     end
 
     if
