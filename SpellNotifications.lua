@@ -1,6 +1,6 @@
 -- 2.0 Version updated by LucyON
+local _, addon = ...
 
-local _
 local reflected = {}
 local duration
 local warnOP
@@ -28,9 +28,9 @@ function SpellNotifications_OnEvent(event)
 		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			local spellName = select(16, CombatLogGetCurrentEventInfo());
 			if bit.band(destFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) > 0 then
-				SpellNotifications_Print("Dispelled "..spellName..".","white","small") -- friendly target
+				addon.print("Dispelled "..spellName..".","white","small") -- friendly target
 			else
-				SpellNotifications_Print("Dispelled "..spellName..".","yellow","small") -- enemy target
+				addon.print("Dispelled "..spellName..".","yellow","small") -- enemy target
 			end
 		end
 	end
@@ -38,7 +38,7 @@ function SpellNotifications_OnEvent(event)
 	if (event=="SPELL_STOLEN") then
 		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			local spellName = select(16, CombatLogGetCurrentEventInfo());
-			SpellNotifications_Print("Stole "..spellName..".","yellow","small") -- enemy target
+			addon.print("Stole "..spellName..".","yellow","small") -- enemy target
 		end
 	end
 
@@ -46,7 +46,7 @@ function SpellNotifications_OnEvent(event)
 	if (event=="UNIT_DIED") then
 		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			if bit.band(destFlags, COMBATLOG_OBJECT_TYPE_PET) > 0 then
-				SpellNotifications_Print("Pet dead.","red","large")
+				addon.print("Pet dead.","red","large")
 		end
 	end
 	end
@@ -125,7 +125,7 @@ function SpellNotifications_OnEvent(event)
 			if SpellSchool==nil then
 				SpellSchool = "unknown spell school"
 			end
-			SpellNotifications_Print("Interrupted "..string.lower(SpellSchool)..".","green","small")
+			addon.print("Interrupted "..string.lower(SpellSchool)..".","green","small")
 		end
 	end
 
@@ -149,7 +149,7 @@ function SpellNotifications_OnEvent(event)
 			if (missType=="REFLECT") then
 				if reflected[destGUID] ~= nil then
 					if reflected[destGUID] then
-						SpellNotifications_Print("Reflected "..spellName..".","blue","small")
+						addon.print("Reflected "..spellName..".","blue","small")
 					end
 				end
 			end
@@ -160,9 +160,9 @@ function SpellNotifications_OnEvent(event)
 		if (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0) then
 			local spellName,_,missType = select(13, CombatLogGetCurrentEventInfo())
 			if (missType=="REFLECT") then
-				SpellNotifications_Print("Reflected "..spellName..".","white","small")
+				addon.print("Reflected "..spellName..".","white","small")
 			elseif (destName=="Grounding Totem") and (bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0) then
-				SpellNotifications_Print("Grounded "..spellName..".","white","small")
+				addon.print("Grounded "..spellName..".","white","small")
 			end
 		end
 	end
@@ -170,7 +170,7 @@ function SpellNotifications_OnEvent(event)
 		if bit.band(destFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			local spellName = select(13, CombatLogGetCurrentEventInfo())
 			if (destName=="Grounding Totem") then
-				SpellNotifications_Print("Grounded "..spellName..".","white","small")
+				addon.print("Grounded "..spellName..".","white","small")
 			end
 		end
 	end
@@ -217,9 +217,9 @@ function SpellNotifications_OnEvent(event)
 				end
 
 				if (ResistMethod=="immune") or (ResistMethod=="evaded") then
-					SpellNotifications_Print(""..spellName.." "..ResistMethod..".","red","large")
+					addon.print(""..spellName.." "..ResistMethod..".","red","large")
 				else
-					SpellNotifications_Print(""..spellName.." "..ResistMethod..".","white","large")
+					addon.print(""..spellName.." "..ResistMethod..".","white","large")
 				end
 				if (ResistMethod ~= "immune") then
 					if (spellName=="Mocking Blow") or (spellName=="Challenging Shout") or (spellName=="Taunt") or (spellName=="Growl") or (spellName=="Challenging Roar") then
@@ -238,7 +238,7 @@ function SpellNotifications_OnEvent(event)
 	end
 end
 
-
+--[[
 function SpellNotifications_Print(text,color,size)
 
 	local color = string.lower(color)
@@ -277,12 +277,16 @@ function SpellNotifications_Print(text,color,size)
 	end
 
 end
+ ]]
 
---[[ function SpellNotifications_PlaySound(sound)
+ --[[
+function SpellNotifications_PlaySound(sound)
 	PlaySoundFile("Interface\\AddOns\\SpellNotifications\\Sounds\\"..sound..".mp3", "Master");
-end ]]
+end
+]]
 
---[[ function SpellNotifications_ErrorsFrame_AddMessage(self,msg,...)
+--[[
+function SpellNotifications_ErrorsFrame_AddMessage(self,msg,...)
 	local lowermsg = string.lower(msg)
 	if (string.find(lowermsg,"not enough")) or (string.find(lowermsg,"not ready")) or (string.find(lowermsg,"nothing to attack")) or (string.find(lowermsg,"can't attack")) or (string.find(lowermsg,"can't do")) or (string.find(lowermsg,"unable to move")) or (string.find(lowermsg,"must equip")) or (lowermsg=="interrupted") or (string.find(lowermsg,"target is dead")) or (string.find(lowermsg,"invalid target")) or (string.find(lowermsg,"line of sight")) or (string.find(lowermsg,"you are dead")) or (string.find(lowermsg,"no target")) or (string.find(lowermsg,"another action")) or (string.find(lowermsg,"you are stunned")) or (string.find(lowermsg,"wrong way")) or (string.find(lowermsg,"out of range")) or (string.find(lowermsg,"front of you")) or (string.find(lowermsg,"you cannot attack")) or (string.find(lowermsg,"too far away")) or (string.find(lowermsg,"must be in")) or (string.find(lowermsg,"too close")) or (string.find(lowermsg,"requires combo")) or (string.find(lowermsg,"in combat")) or (string.find(lowermsg,"not in control")) or (string.find(lowermsg,"must have")) or (string.find(lowermsg,"nothing to dispel")) or (string.find(lowermsg,"in an arena")) or (string.find(lowermsg,"while pacified")) then
 		return;
@@ -294,4 +298,5 @@ function SpellNotifications_HookErrorsFrame()
 	local ef = getglobal("UIErrorsFrame");
 	ef.SpellNotifications_Orig_AddMessage = ef.AddMessage;
 	ef.AddMessage = SpellNotifications_ErrorsFrame_AddMessage;
-end ]]
+end
+]]

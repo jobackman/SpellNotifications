@@ -4,6 +4,7 @@
 	<Script file="data/MissTypes.lua"/>
 	<Script file="data/SpellSchools.lua"/>
 	<Script file="data/Colors.lua"/>
+	<Script file="data/Sizes.lua"/>
 	<Script file="service/NotifyService.lua"/>
 	<Script file="service/ErrorService.lua"/>
 	<Frame name="SpellNotifications_Frame">

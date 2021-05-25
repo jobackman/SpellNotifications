@@ -1,4 +1,4 @@
-local _,addon=...;
+local _, addon = ...
 
 function addon.MissTypes()
     return {

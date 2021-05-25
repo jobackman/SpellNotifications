@@ -3,6 +3,7 @@ local _,addon=...;
 function addon.print(text, color, size)
     local color = string.lower(color)
     local size = string.lower(size)
+    local sizes = addon.Sizes()
     local colors = addon.Colors()[color]
     local R, G, B
 
@@ -12,7 +13,10 @@ function addon.print(text, color, size)
         R, G, B = colors["R"], colors["G"], colors["B"]
     end
 
-    if size == "large" or size == "big" then
+    if
+        size == sizes.LARGE or
+        size == sizes.BIG
+    then
         ZoneTextString:SetText(text);
         PVPInfoTextString:SetText("");
         ZoneTextFrame.startTime = GetTime()
@@ -21,7 +25,7 @@ function addon.print(text, color, size)
         ZoneTextFrame.fadeOutTime = 2
         ZoneTextString:SetTextColor(R, G, B);
         ZoneTextFrame:Show()
-    else -- size == "small"
+    else -- size == sizes.SMALL
         UIErrorsFrame:AddMessage(text, R, G, B);
     end
 end
