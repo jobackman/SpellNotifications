@@ -197,9 +197,9 @@ function SpellNotifications.OnEvent(event)
 				end
 
 				if (resistMethod=="immune") or (resistMethod=="evaded") then
-					addon.showText(""..spellName.." "..resistMethod..".","red","large")
+					addon.print(""..spellName.." "..resistMethod..".","red","large")
 				else
-					addon.showText(""..spellName.." "..resistMethod..".","white","large")
+					addon.print(""..spellName.." "..resistMethod..".","white","large")
 				end
 			end
 		end
