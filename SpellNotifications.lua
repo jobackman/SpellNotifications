@@ -178,63 +178,30 @@ function SpellNotifications.OnEvent(event)
 		end
 	end
 
-
-
 	if (event=="SPELL_MISSED") then
 		if bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) > 0 then
 			if (destGUID==UnitGUID("target")) or (destGUID==UnitGUID("targettarget")) or (destGUID==UnitGUID("focus")) or (destGUID==UnitGUID("player")) or (destGUID==UnitGUID("pet")) or (destGUID==UnitGUID("pettarget")) or (destGUID==UnitGUID("mouseover")) or (destGUID==UnitGUID("mouseovertarget")) or (destGUID==UnitGUID("arena1")) or (destGUID==UnitGUID("arena2")) or (destGUID==UnitGUID("arena3")) or (destGUID==UnitGUID("arena4")) or (destGUID==UnitGUID("arena5")) or (destGUID==UnitGUID("party1")) or (destGUID==UnitGUID("party2")) or (destGUID==UnitGUID("party3")) or (destGUID==UnitGUID("party4")) or (destGUID==UnitGUID("party5")) then -- makes sure dest targ wasn't some random aoe
 				local spellName,_,missType = select(13, CombatLogGetCurrentEventInfo())
-				local lowspell = string.lower(spellName)
+				local resistMethod = addon.MissTypes()[missType]
 
-				if (string.find(lowspell,"charge")) then
-					spellName = "Charge"
-				elseif (string.find(lowspell,"intercept")) then
-					spellName = "Intercept"
-				elseif (string.find(lowspell,"ravage")) then
-					spellName = "Ravage"
-				end
 				if (missType=="ABSORB") then
 					return;
 				elseif (destName=="Grounding Totem") then
-					ResistMethod = "grounded"
+					resistMethod = "grounded"
 					MySpellGrounded = true;
 				elseif (missType=="REFLECT") then
-					ResistMethod = "reflected"
+					resistMethod = "reflected"
 					MySpellReflected = true;
-				elseif (missType=="IMMUNE") then
-					ResistMethod = "immune"
-				elseif (missType=="EVADE") then
-					ResistMethod = "evaded"
-				elseif (missType=="PARRY") then
-					ResistMethod = "parried"
-				elseif (missType=="DODGE") then
-					ResistMethod = "dodged"
-				elseif (missType=="BLOCK") then
-					ResistMethod = "blocked"
-				elseif (missType=="DEFLECT") then
-					ResistMethod = "deflected"
-				elseif (missType=="RESIST") then
-					ResistMethod = "resisted"
+				elseif resistMethod == nil then
+					resistMethod = "missed"
 				else
-					ResistMethod = "missed"
+					resistMethod = "unknown"
 				end
 
-				if (ResistMethod=="immune") or (ResistMethod=="evaded") then
-					addon.print(""..spellName.." "..ResistMethod..".","red","large")
+				if (resistMethod=="immune") or (resistMethod=="evaded") then
+					addon.showText(""..spellName.." "..resistMethod..".","red","large")
 				else
-					addon.print(""..spellName.." "..ResistMethod..".","white","large")
-				end
-				if (ResistMethod ~= "immune") then
-					if (spellName=="Mocking Blow") or (spellName=="Challenging Shout") or (spellName=="Taunt") or (spellName=="Growl") or (spellName=="Challenging Roar") then
-						lowerspellName = string.lower(spellName)
-						if (class=="WARRIOR") or (class=="DRUID") or (class=="PALADIN") or (class=="DEATHKNIGHT") then
-							if (ResistMethod ~= "missed") then
-								SendChatMessage("My "..lowerspellName.." was "..ResistMethod..".");
-							else
-								SendChatMessage("My "..lowerspellName.." "..ResistMethod..".");
-							end
-						end
-					end
+					addon.showText(""..spellName.." "..resistMethod..".","white","large")
 				end
 			end
 		end
