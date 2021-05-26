@@ -1,5 +1,4 @@
 # SpellNotifications
-
 _**Now compatible with Retail, Classic & BC Classic**_
 
 Available at: [Curse], [Wago], [WowInterface] or [Github]
@@ -28,6 +27,7 @@ The code has also been cleaned up and refactored into more files for the sake of
 ![Missed spells](https://cdn.discordapp.com/attachments/249637569636204555/483729453260865536/unknown.png)
 ![evaded spells](https://user-images.githubusercontent.com/732505/119417757-d5361480-bcf6-11eb-98f6-a53e9d869633.png)
 ![stolen spells](https://user-images.githubusercontent.com/732505/119417851-0d3d5780-bcf7-11eb-9508-bb57e6a3fd4c.png)
+![interrupts](https://user-images.githubusercontent.com/732505/119710366-8e632e80-be5e-11eb-8359-3cc99b46a86e.jpg)
 
 
 _More image examples coming soon™_
