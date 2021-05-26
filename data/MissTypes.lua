@@ -8,6 +8,7 @@ function addon.MissTypes()
         ["PARRY"] = "parried",
         ["DODGE"] = "dodged",
         ["BLOCK"] = "blocked",
+        ["DEFLECT"] = "deflected",
         ["RESIST"] = "resisted"
     }
 end
