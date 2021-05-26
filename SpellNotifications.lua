@@ -77,7 +77,7 @@ function SpellNotifications.OnEvent(event)
 	if ((
 		event == "UNIT_DIED" or
 		event == "UNIT_DESTROYED" or
-		event == "UNIT_DESTROYED") and
+		event == "UNIT_DISSIPATES") and
 		cast.on(ME) and
 		cast.on(PET)
 	) then
@@ -150,61 +150,24 @@ function SpellNotifications.OnEvent(event)
 			destGUID==UnitGUID("party5")
 		) then -- makes sure dest targ wasn't some random aoe
 			local spellName,_,missType = select(13, CombatLogGetCurrentEventInfo())
-			local lowspell = string.lower(spellName)
-
-			if (string.find(lowspell,"charge")) then
-				spellName = "Charge"
-			elseif (string.find(lowspell,"intercept")) then
-				spellName = "Intercept"
-			elseif (string.find(lowspell,"ravage")) then
-				spellName = "Ravage"
-			end
+			local resistMethod = addon.MissTypes()[missType]
 
 			if (missType=="ABSORB") then
 				return;
 			elseif (destName=="Grounding Totem") then
-				ResistMethod = "grounded"
+				resistMethod = "grounded"
 				MySpellGrounded = true;
 			elseif (missType=="REFLECT") then
-				ResistMethod = "reflected"
 				MySpellReflected = true;
-			elseif (missType=="IMMUNE") then
-				ResistMethod = "immune"
-			elseif (missType=="EVADE") then
-				ResistMethod = "evaded"
-			elseif (missType=="PARRY") then
-				ResistMethod = "parried"
-			elseif (missType=="DODGE") then
-				ResistMethod = "dodged"
-			elseif (missType=="BLOCK") then
-				ResistMethod = "blocked"
-			elseif (missType=="DEFLECT") then
-				ResistMethod = "deflected"
-			elseif (missType=="RESIST") then
-				ResistMethod = "resisted"
 			else
-				ResistMethod = "missed"
+				resistMethod = "missed"
 			end
 
-			if (ResistMethod=="immune") or (ResistMethod=="evaded") then
-				addon.print(""..spellName.." "..ResistMethod..".", color.RED, size.LARGE)
+			if (resistMethod=="immune") or (resistMethod=="evaded") then
+				addon.print(""..spellName.." "..resistMethod..".", color.RED, size.LARGE)
 			else
-				addon.print(""..spellName.." "..ResistMethod..".", color.WHITE, size.LARGE)
+				addon.print(""..spellName.." "..resistMethod..".", color.WHITE, size.LARGE)
 			end
-			--[[
-			if (ResistMethod ~= "immune") then
-				if (spellName=="Mocking Blow") or (spellName=="Challenging Shout") or (spellName=="Taunt") or (spellName=="Growl") or (spellName=="Challenging Roar") then
-					lowerspellName = string.lower(spellName)
-					if (class=="WARRIOR") or (class=="DRUID") or (class=="PALADIN") or (class=="DEATHKNIGHT") then
-						if (ResistMethod ~= "missed") then
-							SendChatMessage("My "..lowerspellName.." was "..ResistMethod..".");
-						else
-							SendChatMessage("My "..lowerspellName.." "..ResistMethod..".");
-						end
-					end
-				end
-			end
-			]]
 		end
 	end
 end
