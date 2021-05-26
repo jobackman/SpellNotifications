@@ -8,6 +8,6 @@
 ## Version: @project-version@
 ## X-Curse-Project-ID: 301888
 ## X-Wago-ID: WYK9blGL
-## X-WoWI-ID:
+## X-WoWI-ID: 26039
 
 SpellNotifications.xml
