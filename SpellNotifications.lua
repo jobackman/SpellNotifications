@@ -159,7 +159,7 @@ function SpellNotifications.OnEvent(event)
 				MySpellGrounded = true;
 			elseif (missType=="REFLECT") then
 				MySpellReflected = true;
-			else
+			elseif (resistMethod==nil) then
 				resistMethod = "missed"
 			end
 
