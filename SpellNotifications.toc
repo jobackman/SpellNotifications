@@ -1,9 +1,9 @@
-## Interface: 90005
-## Interface-Retail: 90005
+## Interface: 90200
+## Interface-Retail: 90200
 ## Interface-Classic: 11306
 ## Interface-BCC: 20501
 ## Title: SpellNotifications
-## Notes: Simple spell notifications tailored to each and every class. Original by Veex-Executus(US), v2.0.0 updated by LucyON
+## Notes: Simple spell notifications tailored to each and every class. Original by Veex-Executus(US), v2.0.0 updated by LucyON & oscarwizyo
 ## Author: LucyON
 ## Version: @project-version@
 ## X-Curse-Project-ID: 301888

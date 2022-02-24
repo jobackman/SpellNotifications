@@ -31,6 +31,7 @@ function addon.SpellSchools()
         [80] = "Spellfrost",
         [96] = "Spellshadow",
         [28] = "Elemental",
+        [106] = "Cosmic",
         [124] = "Chromatic",
         [126] = "Magic",
         [127] = "Chaos"
