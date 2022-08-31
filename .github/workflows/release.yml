@@ -19,27 +19,27 @@ jobs:
       - name: Clone project
         # note: checkout@v2 breaks git history, so generating a changelog and
         # file naming for non-tagged builds will not work properly
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       # Retail
       - name: Release for Retail
-        uses: BigWigsMods/packager@v1
+        uses: BigWigsMods/packager@v2
 
       # Classic
       - name: Release for Classic
-        uses: BigWigsMods/packager@v1
+        uses: BigWigsMods/packager@v2
         with:
           args: -g classic
 
       # TBC Classic
       - name: Release for TBC Classic
-        uses: BigWigsMods/packager@v1
+        uses: BigWigsMods/packager@v2
         with:
           args:
             -g bcc
 
       # TBC Classic
       - name: Release for Wrath Classic
-        uses: BigWigsMods/packager@v1
+        uses: BigWigsMods/packager@v2
         with:
           args: -g wrath
