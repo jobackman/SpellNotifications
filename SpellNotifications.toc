@@ -2,6 +2,7 @@
 ## Interface-Retail: 90205
 ## Interface-Classic: 11403
 ## Interface-BCC: 20504
+## Interface-Wrath: 30400
 ## Title: SpellNotifications
 ## Notes: Simple spell notifications tailored to each and every class. Original by Veex-Executus(US), v2.0.0 updated by LucyON & oscarwizyo
 ## Author: LucyON
