@@ -38,8 +38,14 @@ jobs:
           args:
             -g bcc
 
-      # TBC Classic
+      # WotlK Classic
       - name: Release for Wrath Classic
         uses: BigWigsMods/packager@v2
         with:
           args: -g wrath
+          
+      # Cata Classic
+      - name: Release for Cata Classic
+        uses: BigWigsMods/packager@v2
+        with:
+          args: -g cata
