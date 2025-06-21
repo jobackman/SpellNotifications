@@ -1,5 +1,5 @@
 # SpellNotifications
-_**Now compatible with Retail, Classic & BC Classic**_
+_**Now compatible with Retail, Classic, TBC, WotLK & Cata**_
 
 Available at: [Curse], [Wago], [WowInterface] or [Github]
 
