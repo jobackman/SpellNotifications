@@ -24,14 +24,12 @@ It has been updated for BFA's 8.0 change to combat log events, which had made th
 The code has also been cleaned up and refactored into more files for the sake of readability and maintainability (thanks to @oscarwika). 
 
 # Showcase
-![Missed spells](https://cdn.discordapp.com/attachments/249637569636204555/483729453260865536/unknown.png)
-![evaded spells](https://user-images.githubusercontent.com/732505/119417757-d5361480-bcf6-11eb-98f6-a53e9d869633.png)
-![stolen spells](https://user-images.githubusercontent.com/732505/119417851-0d3d5780-bcf7-11eb-9508-bb57e6a3fd4c.png)
+![dispells](https://github.com/user-attachments/assets/8a01f7a4-a984-46d5-9eec-834ab7e3a936)
 ![interrupts](https://user-images.githubusercontent.com/732505/119710366-8e632e80-be5e-11eb-8359-3cc99b46a86e.jpg)
-
+![stolen spells](https://user-images.githubusercontent.com/732505/119417851-0d3d5780-bcf7-11eb-9508-bb57e6a3fd4c.png)
+![evaded spells](https://user-images.githubusercontent.com/732505/119417757-d5361480-bcf6-11eb-98f6-a53e9d869633.png)
 
 _More image examples coming soon™_
-
 
 [Curse]: https://www.curseforge.com/wow/addons/spellnotifications
 [Wago]: https://addons.wago.io/addons/spellnotifications
