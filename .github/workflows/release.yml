@@ -49,3 +49,10 @@ jobs:
         uses: BigWigsMods/packager@v2
         with:
           args: -g cata
+
+          
+      # MoP Classic
+      - name: Release for Cata Classic
+        uses: BigWigsMods/packager@v2
+        with:
+          args: -g mop
