@@ -153,14 +153,14 @@ function SpellNotifications.OnEvent(event)
         handlePetDeath(event, destFlags)
     elseif event == "SPELL_AURA_APPLIED" or event == "SPELL_AURA_REMOVED" then
         handleSpellReflection(event, sourceFlags, destGUID)
-    elseif event == "SPELL_MISSED" then
-        if bit.band(destFlags, ME) <= 0 then
-            handleReflectedMiss(destFlags, destGUID)
-        elseif bit.band(destFlags, ME) > 0 then
-            handlePlayerSpellMissOnPlayer(destFlags, destName)
-        elseif bit.band(sourceFlags, ME) > 0 then
-            handlePlayerSpellMiss(destGUID, destName)
-        end
+	elseif event == "SPELL_MISSED" then
+		if bit.band(sourceFlags, ME) > 0 then
+			handlePlayerSpellMiss(destGUID, destName)
+		elseif bit.band(destFlags, ME) > 0 then
+			handlePlayerSpellMissOnPlayer(destFlags, destName)
+		elseif bit.band(destFlags, ME) <= 0 then
+			handleReflectedMiss(destFlags, destGUID)
+		end
     elseif event == "SPELL_DAMAGE" then
         handleGroundingDamage(destFlags, destName)
     end
