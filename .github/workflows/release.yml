@@ -55,4 +55,4 @@ jobs:
       - name: Release for MoP Classic
         uses: BigWigsMods/packager@v2
         with:
-          args: -g mop
+          args: -g mists
