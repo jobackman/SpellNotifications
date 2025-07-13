@@ -4,6 +4,7 @@
 ## Interface-BCC: 20504
 ## Interface-Wrath: 30403
 ## Interface-Cata: 40402
+## Interface-MoP: 50500
 ## Title: SpellNotifications
 ## Notes: Simple spell notifications. Original by Veev, maintained by LucyON & Oscarwizyo
 ## Author: LucyON
