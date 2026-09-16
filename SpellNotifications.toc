@@ -1,10 +1,10 @@
 ## Interface: 110005
 ## Interface-Retail: 110005
 ## Interface-Classic: 11501
-## Interface-BCC: 20504
+## Interface-BCC: 20506
 ## Interface-Wrath: 30403
 ## Interface-Cata: 40402
-## Interface-Mists: 50500
+## Interface-Mists: 50504
 ## Title: SpellNotifications
 ## Notes: Simple spell notifications. Original by Veev, maintained by LucyON & Oscarwizyo
 ## Author: LucyON
