@@ -27,6 +27,12 @@ function addon.print(text, color, size)
     end
 end
 
+-- If the client refuses the file (PlaySoundFile answers false; WoW Forever can), the game's raid-warning sound plays
+-- instead, so a warning is never silent
 function addon.playSound(sound)
-    PlaySoundFile("Interface\\AddOns\\SpellNotifications\\sounds\\" .. sound .. ".mp3", "Master");
+    local ok, willPlay = pcall(PlaySoundFile, "Interface\\AddOns\\SpellNotifications\\sounds\\" .. sound .. ".mp3", "Master")
+    if not (ok and willPlay) and PlaySound then
+        local kit = SOUNDKIT and SOUNDKIT.RAID_WARNING or 8959
+        pcall(PlaySound, kit, "Master")
+    end
 end

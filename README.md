@@ -1,5 +1,5 @@
 # SpellNotifications
-_**Now compatible with Retail, Classic, TBC, WotLK, Cata & MoP**_
+_**Now compatible with Retail, Classic, TBC, WotLK, Cata, MoP & WoW Forever**_
 
 Available at: [Curse], [Wago], [WowInterface] or [Github]
 
@@ -22,6 +22,28 @@ For those who are new to Spellnotifications it is an addon that textually displa
 It has been updated for BFA's 8.0 change to combat log events, which had made the original addon unusable, and also cleaned up from old contents that was using Pandaria era spells and talents. There were also a bunch of unused code blocks and commented out code that seemed to be have been used by Veev personally for notifying his friends of spells and such, they are now gone. Other than that it should work just like it did before, announcing dispels, kicks, immunities etc.
 
 The code has also been cleaned up and refactored into more files for the sake of readability and maintainability (thanks to @oscarwika). 
+
+# WoW Forever
+WoW Forever gives addons no combat log events (`COMBAT_LOG_EVENT_UNFILTERED` is restricted), and the text of the
+Combat Log window's lines is hidden from addons. The Forever client loads `SpellNotifications_Camelot.toc`, which adds
+`forever/`: it builds the same notifications from what the game still gives:
+
+| Notification | On Forever |
+|---|---|
+| Your spell dodged / parried / resisted / evaded / immune / ... on your target, focus, mouseover, ... | yes (`UNIT_COMBAT` + a hidden line of yours at the same moment) |
+| Interrupted | yes (your interrupt + the stopped cast) - names the spell instead of the school |
+| Dispelled | yes, when the game shows the auras (compared before and after your dispel) |
+| Reflected (on you) | yes |
+| Pet dead + sound | yes |
+| Error filter | yes |
+| Stole | no Spellsteal on Forever |
+| Grounded, Mass Spell Reflection | no |
+
+The Combat Log must be loaded once per session: if no notification shows, click the Combat Log chat tab once.
+`/snf` opens the settings (an optional miss sound, off by default); `/snf debug` records what the game sends
+(saved in `SpellNotificationsForeverDB.debugLog` after `/reload`) for bug reports.
+The combat line reader (`forever/Parse.lua`) is from BattleText Forever by severd8 (MIT, see
+`forever/LICENSE-BattleTextForever.txt`).
 
 # Showcase
 ![dispells](https://github.com/user-attachments/assets/8a01f7a4-a984-46d5-9eec-834ab7e3a936)

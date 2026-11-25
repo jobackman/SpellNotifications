@@ -124,7 +124,11 @@ local function handlePlayerSpellMiss(destGUID, destName)
 end
 
 function SpellNotifications.OnLoad(self)
-	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+	-- WoW Forever keeps the combat log away from addons (COMBAT_LOG_EVENT_UNFILTERED is restricted and
+	-- CombatLogGetCurrentEventInfo does not exist); there forever/CombatLines.lua does the work instead
+	if CombatLogGetCurrentEventInfo then
+		self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+	end
 	self:RegisterEvent("UNIT_HEALTH")
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
 	self:RegisterEvent("PLAYER_REGEN_DISABLED") -- enter combat
@@ -134,6 +138,7 @@ function SpellNotifications.OnLoad(self)
 end
 
 function SpellNotifications.OnEvent(event)
+    if not CombatLogGetCurrentEventInfo then return end
     local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, 
           destGUID, destName, destFlags, destRaidFlags = CombatLogGetCurrentEventInfo()
     
